@@ -115,116 +115,10 @@
     </div>
     <!-- End Hero -->
 
-    <!-- Partners -->
-    <section class="py-6 border-t border-b border-gray-100">
-        <div class="container relative">
-            <div class="grid md:grid-cols-6 grid-cols-2 justify-center gap-[30px]">
-                <div class="mx-auto py-4">
-                    <img src="assets/images/client/amazon.svg" class="h-6" alt="">
-                </div>
-
-                <div class="mx-auto py-4">
-                    <img src="assets/images/client/google.svg" class="h-6" alt="">
-                </div>
-
-                <div class="mx-auto py-4">
-                    <img src="assets/images/client/lenovo.svg" class="h-6" alt="">
-                </div>
-
-                <div class="mx-auto py-4">
-                    <img src="assets/images/client/paypal.svg" class="h-6" alt="">
-                </div>
-
-                <div class="mx-auto py-4">
-                    <img src="assets/images/client/shopify.svg" class="h-6" alt="">
-                </div>
-
-                <div class="mx-auto py-4">
-                    <img src="assets/images/client/spotify.svg" class="h-6" alt="">
-                </div>
-            </div><!--end grid-->
-        </div><!--end container-->
-    </section>
-    <!-- Partners -->
 
     <!-- Start -->
     <section class="relative md:py-24 py-16 overflow-hidden">
-        <!-- Start How It Works Section -->
-        <section class="py-16 bg-gray-100">
-            <div class="container relative">
-                <div class="grid grid-cols-1 pb-8 text-center">
-                    <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">
-                        {{ __('site.how_it_works') }}
-                    </h3>
-                    <p class="text-slate-500 max-w-xl mx-auto">
-                        {{ __('site.how_it_works_desc') }}
-                    </p>
-                </div><!--end grid-->
 
-                <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 mt-8 gap-[30px]">
-                    <!-- Service 1 -->
-                    <div class="group relative bg-white shadow p-6 duration-500 rounded-xl text-center h-fit">
-                        <div class="relative text-indigo-600 text-3xl flex justify-center items-center">
-                            <i class="uil uil-airplay"></i>
-                        </div>
-                        <div class="mt-6">
-                            <a href=""
-                                class="text-xl font-medium hover:text-indigo-600 duration-500 ease-in-out">
-                                {{ __('site.service_ux_ui') }}
-                            </a>
-                            <p class="text-slate-400 mt-3">
-                                تصميم واجهات وتجربة مستخدم احترافية لتحسين تجربة العملاء.
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Service 2 -->
-                    <div class="group relative bg-white shadow p-6 duration-500 rounded-xl text-center h-fit md:mt-16">
-                        <div class="relative text-indigo-600 text-3xl flex justify-center items-center">
-                            <i class="uil uil-shutter"></i>
-                        </div>
-                        <div class="mt-6">
-                            <a href=""
-                                class="text-xl font-medium hover:text-indigo-600 duration-500 ease-in-out">
-                                {{ __('site.service_ios') }}
-                            </a>
-                            <p class="text-slate-400 mt-3">
-                                تطوير تطبيقات iOS عالية الجودة بأحدث التقنيات.
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Service 3 -->
-                    <div class="group relative bg-white shadow p-6 duration-500 rounded-xl text-center h-fit">
-                        <div class="relative text-indigo-600 text-3xl flex justify-center items-center">
-                            <i class="uil uil-cog"></i>
-                        </div>
-                        <div class="mt-6">
-                            <a href=""
-                                class="text-xl font-medium hover:text-indigo-600 duration-500 ease-in-out">
-                                {{ __('site.service_security') }}
-                            </a>
-                            <p class="text-slate-400 mt-3">
-                                تأمين مواقع الويب وحماية البيانات من التهديدات السيبرانية.
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Service 4 -->
-                    <div class="group relative bg-white shadow p-6 duration-500 rounded-xl text-center h-fit md:mt-16">
-                        <div class="relative text-indigo-600 text-3xl flex justify-center items-center">
-                            <i class="uil uil-comment"></i>
-                        </div>
-                        <div class="mt-6">
-                            <a href=""
-                                class="text-xl font-medium hover:text-indigo-600 duration-500 ease-in-out">
-                                {{ __('site.service_support') }}
-                            </a>
-                            <p class="text-slate-400 mt-3">
-                                دعم فني متاح على مدار الساعة لمساعدتك في أي وقت.
-                            </p>
-                        </div>
-                    </div>
-                </div><!--end grid-->
-            </div><!--end container-->
-        </section><!--end section-->
 
         <!-- Start Categories Section -->
         <section class="py-16">
@@ -544,7 +438,113 @@
             </div>
         </section>
 
+        <!-- Start How It Works Section -->
+        <section class="py-16 bg-gray-100">
+            <div class="container relative">
+                <div class="grid grid-cols-1 pb-8 text-center">
+                    <h3 class="mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">
+                        {{ __('site.how_it_works') }}
+                    </h3>
+                    <p class="text-slate-500 max-w-xl mx-auto">
+                        {{ __('site.how_it_works_desc') }}
+                    </p>
+                </div><!--end grid-->
 
+                <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 mt-8 gap-[30px]">
+                    <!-- Service 1 -->
+                    <div class="group relative bg-white shadow p-6 duration-500 rounded-xl text-center h-fit">
+                        <div class="relative text-indigo-600 text-3xl flex justify-center items-center">
+                            <i class="uil uil-airplay"></i>
+                        </div>
+                        <div class="mt-6">
+                            <a href=""
+                                class="text-xl font-medium hover:text-indigo-600 duration-500 ease-in-out">
+                                {{ __('site.service_ux_ui') }}
+                            </a>
+                            <p class="text-slate-400 mt-3">
+                                تصميم واجهات وتجربة مستخدم احترافية لتحسين تجربة العملاء.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Service 2 -->
+                    <div class="group relative bg-white shadow p-6 duration-500 rounded-xl text-center h-fit md:mt-16">
+                        <div class="relative text-indigo-600 text-3xl flex justify-center items-center">
+                            <i class="uil uil-shutter"></i>
+                        </div>
+                        <div class="mt-6">
+                            <a href=""
+                                class="text-xl font-medium hover:text-indigo-600 duration-500 ease-in-out">
+                                {{ __('site.service_ios') }}
+                            </a>
+                            <p class="text-slate-400 mt-3">
+                                تطوير تطبيقات iOS عالية الجودة بأحدث التقنيات.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Service 3 -->
+                    <div class="group relative bg-white shadow p-6 duration-500 rounded-xl text-center h-fit">
+                        <div class="relative text-indigo-600 text-3xl flex justify-center items-center">
+                            <i class="uil uil-cog"></i>
+                        </div>
+                        <div class="mt-6">
+                            <a href=""
+                                class="text-xl font-medium hover:text-indigo-600 duration-500 ease-in-out">
+                                {{ __('site.service_security') }}
+                            </a>
+                            <p class="text-slate-400 mt-3">
+                                تأمين مواقع الويب وحماية البيانات من التهديدات السيبرانية.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Service 4 -->
+                    <div class="group relative bg-white shadow p-6 duration-500 rounded-xl text-center h-fit md:mt-16">
+                        <div class="relative text-indigo-600 text-3xl flex justify-center items-center">
+                            <i class="uil uil-comment"></i>
+                        </div>
+                        <div class="mt-6">
+                            <a href=""
+                                class="text-xl font-medium hover:text-indigo-600 duration-500 ease-in-out">
+                                {{ __('site.service_support') }}
+                            </a>
+                            <p class="text-slate-400 mt-3">
+                                دعم فني متاح على مدار الساعة لمساعدتك في أي وقت.
+                            </p>
+                        </div>
+                    </div>
+                </div><!--end grid-->
+            </div><!--end container-->
+        </section><!--end section-->
+    <!-- Partners -->
+    <section class="py-6 border-t border-b border-gray-100">
+        <div class="container relative">
+            <div class="grid md:grid-cols-6 grid-cols-2 justify-center gap-[30px]">
+                <div class="mx-auto py-4">
+                    <img src="assets/images/client/amazon.svg" class="h-6" alt="">
+                </div>
+
+                <div class="mx-auto py-4">
+                    <img src="assets/images/client/google.svg" class="h-6" alt="">
+                </div>
+
+                <div class="mx-auto py-4">
+                    <img src="assets/images/client/lenovo.svg" class="h-6" alt="">
+                </div>
+
+                <div class="mx-auto py-4">
+                    <img src="assets/images/client/paypal.svg" class="h-6" alt="">
+                </div>
+
+                <div class="mx-auto py-4">
+                    <img src="assets/images/client/shopify.svg" class="h-6" alt="">
+                </div>
+
+                <div class="mx-auto py-4">
+                    <img src="assets/images/client/spotify.svg" class="h-6" alt="">
+                </div>
+            </div><!--end grid-->
+        </div><!--end container-->
+    </section>
+    <!-- Partners -->
 
     </section><!--end section-->
     <!-- End -->
