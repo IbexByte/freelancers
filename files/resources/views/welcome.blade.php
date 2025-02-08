@@ -25,7 +25,7 @@
     <link href="assets/libs/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
     <!-- Styles / Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/scss/tailwind.scss', 'resources/js/app.js'])
+       <link rel="stylesheet" href="{{ asset('build/assets/tailwind-CeLQZJVu.css') }}">
     @else
     @endif
 
@@ -596,7 +596,7 @@
         </a>
     </div>
     <!-- LTR & RTL Mode Code -->
-
+             <script src="{{ asset('build/assets/app-CqflisoM.js') }}"></script>
     <!-- JAVASCRIPTS -->
     <script src="assets/libs/tobii/js/tobii.min.js"></script>
     <script src="assets/libs/tiny-slider/min/tiny-slider.js"></script>
