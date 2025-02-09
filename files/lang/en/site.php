@@ -106,4 +106,13 @@ return [
     'footer_subscribe_en' => 'Subscribe for the latest updates',
     'footer_email_placeholder_en' => 'Enter your email',
     'footer_subscribe_button_en' => 'Subscribe',
+
+
+    'create_category' => 'ِCreate New Category',
+    'categories' => 'Categoories',
+    'edit_category' => 'ُEdit Category',
+    'bio' => 'Bio',
+    'write_your_bio_her' => 'here write a brief summary about yourself',
+
+
 ];

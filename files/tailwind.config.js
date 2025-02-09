@@ -26,7 +26,8 @@ export default {
             'cursive-kaushan': ['"Kaushan Script", cursive'],
             'head-ebgaramond': ['"EB Garamond", serif'],
             'para-worksans': ['"Work Sans", sans-serif'],
-            'arabic': ['"Almarai", sans-serif'],
+            'arabic2': ['"Almarai", sans-serif'],
+            'arabic': ['"Tajawal", sans-serif'],
         },
         container: {
             center: true,

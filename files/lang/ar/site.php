@@ -103,5 +103,13 @@ return [
     'footer_subscribe' => 'اشترك للحصول على آخر التحديثات',
     'footer_email_placeholder' => 'أدخل بريدك الإلكتروني',
     'footer_subscribe_button' => 'اشترك',
+
+
+    
+    'create_category' => 'إنشاء تصنيف جديد',
+    'categories' => 'التصنيفات',
+    'edit_category' => 'تعديل التصنيف',
+    'bio' => 'نبذة',
+    'write_your_bio_her' => 'هنا فالتكتب نبذة مختصرة عنك ',
    
 ];
