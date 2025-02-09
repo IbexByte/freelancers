@@ -14,8 +14,8 @@
     <meta name="version" content="2.4.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
+    
     <!-- favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
 
