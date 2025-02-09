@@ -159,63 +159,88 @@
 
         <!-- الـSidebar نفسه
              منع النقر داخله من غلقه بـ stopPropagation() -->
-        <aside class="sidebar   " onclick="event.stopPropagation()">
-         
+             <aside class="sidebar z-999" onclick="event.stopPropagation()">
 
-            <div class="p-4 border-b">
-                <div class="relative">
-                    <input
-                        type="text"
-                        placeholder="ابحث عن..."
-                        class="w-full rounded border pl-9 pr-3 py-2 text-sm
-                               focus:outline-none focus:border-blue-400"
-                    >
-                    <i class="fas fa-search absolute left-3 top-2 text-gray-400 text-sm"></i>
+                <div class="p-4 border-b">
+                    <div class="relative">
+                        <input
+                            type="text"
+                            placeholder="ابحث عن..."
+                            class="w-full rounded border pl-9 pr-3 py-2 text-sm
+                                focus:outline-none focus:border-blue-400"
+                        >
+                        <i class="fas fa-search absolute left-3 top-2 text-gray-400 text-sm"></i>
+                    </div>
                 </div>
-            </div>
-
-            <nav class="flex-1 overflow-y-auto p-4 ">
-                <ul class="space-y-1">
-                    <li>
-                        <a href="#" class="sidebar-link">
-                            <i class="fas fa-plus"></i>
-                            <span>أضف خدمة</span>
+            
+                <nav class="flex-1 overflow-y-auto p-4">
+                    <ul class="space-y-1">
+                        <li>
+                            <a href="#" class="sidebar-link">
+                                <i class="fas fa-plus"></i>
+                                <span>أضف خدمة</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-link">
+                                <i class="fas fa-shopping-bag"></i>
+                                <span>المشتريات</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-link">
+                                <i class="fas fa-truck"></i>
+                                <span>الطلبات الواردة</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-link">
+                                <i class="fas fa-box-open"></i>
+                                <span>التصنيفات</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-link">
+                                <i class="fas fa-hashtag"></i>
+                                <span>تابعنا</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            
+                <div class="border-t p-4">
+                    <a href="#" class="flex items-center gap-2 text-gray-600 hover:text-blue-500 transition text-sm">
+                        <i class="fas fa-cog"></i>
+                        <span>الإعدادات</span>
+                    </a>
+                </div>
+            
+                <!-- الروابط الخاصة بتسجيل الدخول أو الملف الشخصي -->
+                <div class="border-t p-4">
+                    @guest
+                        <!-- إذا كان المستخدم غير مسجّل الدخول -->
+                        <div class="flex flex-col gap-2">
+                            <a href="{{ route('login') }}" class="flex items-center gap-2 text-gray-600 hover:text-blue-500 transition text-sm">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>تسجيل الدخول</span>
+                            </a>
+                            <a href="{{ route('register') }}" class="flex items-center gap-2 text-gray-600 hover:text-blue-500 transition text-sm">
+                                <i class="fas fa-user-plus"></i>
+                                <span>إنشاء حساب</span>
+                            </a>
+                        </div>
+                    @endguest
+            
+                    @auth
+                        <!-- إذا كان المستخدم مسجّل الدخول -->
+                        <a href="{{ route('userProfile') }}" class="flex items-center gap-2 text-gray-600 hover:text-blue-500 transition text-sm">
+                            <i class="fas fa-user-circle"></i>
+                            <span>ملفي الشخصي</span>
                         </a>
-                    </li>
-                    <li>
-                        <a href="#" class="sidebar-link">
-                            <i class="fas fa-shopping-bag"></i>
-                            <span>المشتريات</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="sidebar-link">
-                            <i class="fas fa-truck"></i>
-                            <span>الطلبات الواردة</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="sidebar-link">
-                            <i class="fas fa-box-open"></i>
-                            <span>التصنيفات</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="sidebar-link">
-                            <i class="fas fa-hashtag"></i>
-                            <span>تابعنا</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <div class="border-t p-4">
-                <a href="#" class="flex items-center gap-2 text-gray-600 hover:text-blue-500 transition text-sm">
-                    <i class="fas fa-cog"></i>
-                    <span>الإعدادات</span>
-                </a>
-            </div>
-        </aside>
+                    @endauth
+                </div>
+            </aside>
+            
     </div>
 </div>
 

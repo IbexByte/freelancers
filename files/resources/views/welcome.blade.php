@@ -44,7 +44,10 @@
             </div>
         </div> -->
     <!-- Loader End -->
+<div class="md:hidden bg-white w-screen flex  justify-center items-center absolute -translate-x-1/2 left-1/2 top-0 rounded-br-full rounded-bl-full  z-50">
 
+    <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="h-10  ">
+</div>
 
     <x-nav-left-light />
 
