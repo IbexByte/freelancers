@@ -6,13 +6,18 @@ use App\Livewire\UserProfile;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Artisan;
+
 
 Route::get('/', function () {
     $categories = Category::where('status', true)->latest()->take(8)->get();
     return view('welcome', compact('categories'));
 })->middleware(LangSwicher::class);
 
-
+Route::get('/storage-link', function () {
+    Artisan::call('storage:link');
+    return 'Storage linked successfully!';
+});
 
 Route::resource('categories', CategoryController::class);
 Route::get('userProfile', UserProfile::class)->name('userProfile');
