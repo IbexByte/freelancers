@@ -49,12 +49,18 @@
             </button>
 
             <!-- تبويب: تسجيل الخروج -->
+             <!-- Authentication -->
+             <form method="POST" action="{{ route('logout') }}" x-data>
+                @csrf
+
+              
             <button
-                class="flex items-center gap-2 px-3 py-2 rounded text-gray-700 hover:bg-gray-100 transition w-full text-right"
+            class="flex items-center gap-2 px-3 py-2 rounded text-gray-700 hover:bg-gray-100 transition w-full text-right"
             >
-                <i class="fas fa-sign-out-alt text-base w-5 text-center"></i>
-                <span class="flex-1">تسجيل الخروج</span>
-            </button>
+            <i class="fas fa-sign-out-alt text-base w-5 text-center"></i>
+                    <span class="flex-1">تسجيل الخروج</span>
+                </button>
+        </form>
         </nav>
 
         <!-- تذييل صغير في الشريط الجانبي -->

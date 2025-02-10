@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Middleware\LangSwicher;
+use App\Livewire\ServiceAdmin;
 use App\Livewire\UserProfile;
 use App\Models\Category;
+use DragonCode\Support\Facades\Filesystem\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Artisan;
@@ -19,8 +21,11 @@ Route::get('/storage-link', function () {
     return 'Storage linked successfully!';
 });
 
+ 
+
 Route::resource('categories', CategoryController::class);
 Route::get('userProfile', UserProfile::class)->name('userProfile');
+Route::get('services', ServiceAdmin::class)->name('services');
 
 Route::get('lang/{lang}', function ($lang) {
     // List of supported languages

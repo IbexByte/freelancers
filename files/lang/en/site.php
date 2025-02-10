@@ -113,6 +113,8 @@ return [
     'edit_category' => 'ُEdit Category',
     'bio' => 'Bio',
     'write_your_bio_her' => 'here write a brief summary about yourself',
+    'profile' => 'Profile ' ,
+    'settings' => 'Settings' ,
 
 
 ];
