@@ -195,8 +195,7 @@
                         @if ($mediaFiles)
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
                                 @foreach ($mediaFiles as $index => $file)
-                                <p>المسار الأصلي: {{ $file->getRealPath() }}</p>
-
+ 
                                     <div class="relative group">
                                         <img src="{{ $file->temporaryUrl() }}"
                                             class="h-32 w-full object-cover border-2 border-gray-200">
