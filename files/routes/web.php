@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Middleware\LangSwicher;
 use App\Livewire\ServiceAdmin;
+use App\Livewire\ServiceShow;
 use App\Livewire\UserProfile;
 use App\Models\Category;
 use DragonCode\Support\Facades\Filesystem\File;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Artisan;
 Route::get('/', function () {
     $categories = Category::where('status', true)->latest()->take(8)->get();
     return view('welcome', compact('categories'));
-})->middleware(LangSwicher::class);
+})->middleware(LangSwicher::class)->name('home');
 
 Route::get('/storage-link', function () {
     Artisan::call('storage:link');
@@ -26,6 +27,7 @@ Route::get('/storage-link', function () {
 Route::resource('categories', CategoryController::class);
 Route::get('userProfile', UserProfile::class)->name('userProfile');
 Route::get('services', ServiceAdmin::class)->name('services');
+Route::get('service/{service}', ServiceShow::class)->name('services.show');
 
 Route::get('lang/{lang}', function ($lang) {
     // List of supported languages

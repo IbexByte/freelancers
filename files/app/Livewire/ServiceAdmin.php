@@ -185,4 +185,13 @@ class ServiceAdmin extends Component
             'filesToDelete'
         ]);
     }
+
+    public function getYoutubeId($url)
+{
+    // هذا التعبير النمطي يتعامل مع عدة صيغ لرابط يوتيوب
+    if (preg_match('/(youtu\.be\/|v=)([A-Za-z0-9_-]{11})/', $url, $matches)) {
+        return $matches[2];
+    }
+    return null;
+}
 }

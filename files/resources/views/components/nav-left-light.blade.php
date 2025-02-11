@@ -128,7 +128,7 @@
 
                 <!-- الروابط الرئيسية -->
                 <div class="flex gap-6">
-                    <a href="#" class="hover:text-blue-600">➕ أضف خدمة</a>
+                    <a href="{{ route('services') }}" class="hover:text-blue-600">➕ أضف خدمة</a>
                     <a href="#" class="hover:text-blue-600">📂 التصنيفات</a>
                     <a href="#" class="hover:text-blue-600">🛍️ المشتريات</a>
                     <a href="#" class="hover:text-blue-600">🚚 الطلبات الواردة</a>
@@ -160,7 +160,7 @@
         <!-- شريط سفلي (للجوال) - افتراض ارتفاعه ~60px -->
         <nav class="md:hidden fixed bottom-0 w-full bg-white border-t-2 z-50 h-15 py-3">
             <div class="flex justify-around items-center h-full">
-                <a href="#" class="mobile-nav-item active">
+                <a href="/" class="mobile-nav-item active">
                     <i class="fas fa-home text-xl"></i>
                     <span class="text-xs">الرئيسية</span>
                 </a>
@@ -201,7 +201,7 @@
                 <nav class="flex-1 overflow-y-auto p-4">
                     <ul class="space-y-1">
                         <li>
-                            <a href="#" class="sidebar-link">
+                            <a href="{{ route('services') }}" class="sidebar-link">
                                 <i class="fas fa-plus"></i>
                                 <span>أضف خدمة</span>
                             </a>

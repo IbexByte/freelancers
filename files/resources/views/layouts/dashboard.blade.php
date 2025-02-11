@@ -10,7 +10,29 @@
     <!-- FontAwesome Icons (if needed) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     @vite(['resources/scss/tailwind.scss', 'resources/js/app.js'])
+<!-- في قسم ال head -->
+<link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css">
+<style>
+    .swiper-container {
+        overflow: hidden;
+        position: relative;
+    }
 
+    .swiper-button-prev,
+    .swiper-button-next {
+        width: 40px;
+        height: 40px;
+        backdrop-filter: blur(4px);
+        transition: all 0.3s ease;
+        --swiper-navigation-size: 20px;
+    }
+
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+        font-weight: 900;
+    }
+</style>
+<!-- في نهاية قسم ال body -->
     @livewireStyles
 </head>
 
@@ -31,6 +53,7 @@
 
     @livewireScripts
     <!-- Additional JS (e.g., from your Mix/Vite or external libs) -->
+    <script src="https://unpkg.com/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
         // Example: Toggle the sidebar on mobile
