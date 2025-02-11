@@ -30,7 +30,7 @@
     @if ($showForm)
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <!-- العمود الرئيسي -->
-            <div class="lg:col-span-3 bg-white rounded-xl shadow-sm p-6 border">
+            <div class="lg:col-span-3 bg-white  shadow-sm p-6 border">
                 <div class="flex justify-between items-start mb-8">
                     <h2 class="text-2xl font-bold text-gray-800">
                         @if ($isEditing)
@@ -104,7 +104,7 @@
 
                         <!-- الزر الرئيسي -->
                         <button type="button" @click="open = !open"
-                            class="w-full px-4 py-3 text-right bg-white border border-gray-300 rounded-lg flex justify-between items-center hover:border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all">
+                            class="w-full px-4 py-3 text-right bg-white border border-gray-300  flex justify-between items-center hover:border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all">
                             <span x-text="selected ? categories.find(c => c.id == selected)?.name : 'اختر تصنيف الخدمة'"
                                 :class="{ 'text-gray-400': !selected }" class="truncate pr-2"></span>
                             <svg class="w-5 h-5 text-gray-400 transform transition-transform"
@@ -117,11 +117,11 @@
 
                         <!-- القائمة المنسدلة -->
                         <div x-show="open" x-cloak x-transition.opacity @click.away="open = false"
-                            class="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
+                            class="absolute z-50 w-full mt-1 bg-white border border-gray-200  shadow-lg">
                             <div class="p-2 border-b">
                                 <input type="text" x-model="search" @input.debounce.300ms=""
                                     placeholder="ابحث عن تصنيف..."
-                                    class="w-full px-3 py-2 text-sm border-none focus:ring-0 rounded-lg">
+                                    class="w-full px-3 py-2 text-sm border-none focus:ring-0 ">
                             </div>
                             <ul class="max-h-60 overflow-y-auto">
                                 <template x-for="cat in filteredCategories" :key="cat.id">
@@ -158,59 +158,90 @@
                     </div>
 
                     <!-- تحميل الصور -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">📸 معرض الأعمال (حد أقصى 5
-                            صور)</label>
-                        <div class="border-2 border-dashed border-gray-300 p-6 relative transition-colors hover:border-blue-500"
-                            x-data="{ isDragging: false }" @dragover.prevent="isDragging = true"
-                            @dragleave.prevent="isDragging = false"
-                            @drop.prevent="isDragging = false; $wire.addMediaFiles($event.dataTransfer.files)">
-                            <input type="file" wire:model="mediaFiles" multiple accept="image/*"
-                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                            <div class="text-center" :class="{ 'opacity-50': isDragging }">
-                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
-                                    viewBox="0 0 48 48">
-                                    <path
-                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <!-- قسم تحميل الوسائط -->
+                    <div x-data="{
+                        isDragging: false,
+                        isUploading: @entangle('isUploading'),
+                        showLoading: false,
+                        uploadTimeout: null,
+                        
+                        handleUploadStart() {
+                            this.showLoading = true;
+                            // إخفاء المؤشر بعد 30 ثانية كحد أقصى في حالة الخطأ
+                            this.uploadTimeout = setTimeout(() => {
+                                this.showLoading = false;
+                            }, 30000);
+                        },
+                        
+                        handleUploadEnd() {
+                            clearTimeout(this.uploadTimeout);
+                            this.showLoading = false;
+                        }
+                    }" 
+                    x-init="
+                        window.livewire.on('upload:started', () => handleUploadStart());
+                        window.livewire.on('upload:finished', () => handleUploadEnd());
+                    "
+                    class="relative">
+                        <!-- مؤشر التحميل -->
+                        <div x-show="showLoading" class="absolute inset-0 bg-white bg-opacity-90 z-50 flex items-center justify-center">
+                            <div class="text-center">
+                                <svg class="animate-spin h-8 w-8 text-blue-500 mx-auto" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
                                 </svg>
-                                <p class="mt-2 text-sm text-gray-600">
-                                    اسحب الصور هنا أو انقر للاختيار
-                                </p>
-                                <p class="text-xs text-gray-400 mt-1">JPEG, PNG, SVG (الحد الأقصى 2MB لكل صورة)</p>
+                                <p class="mt-2 text-sm text-gray-600">جاري تحميل الملفات...</p>
                             </div>
                         </div>
-                        @error('mediaFiles.*')
-                            <p class="mt-2 text-sm text-red-600 flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-
-                        <!-- معاينة الصور -->
-                        @if ($mediaFiles)
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-                                @foreach ($mediaFiles as $index => $file)
- 
-                                    <div class="relative group">
-                                        <img src="{{ $file->temporaryUrl() }}"
-                                            class="h-32 w-full object-cover border-2 border-gray-200">
-                                        <button type="button" wire:click="removeSelectedImage({{ $index }})"
-                                            class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-all">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                @endforeach
+                    
+                        <!-- قسم تحميل الوسائط -->
+                        <div @dragover.prevent="isDragging = true"
+                             @dragleave.prevent="isDragging = false"
+                             @drop.prevent="isDragging = false; $wire.addMediaFiles(Array.from($event.dataTransfer.files))">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">📸 معرض الأعمال</label>
+                            <div class="border-2 border-dashed border-gray-300 p-4 relative transition-colors"
+                                 :class="{ 'border-blue-500 bg-blue-50': isDragging }">
+                                <input type="file" 
+                                       wire:model="mediaFiles"
+                                       multiple 
+                                       accept="image/*,video/*" 
+                                       class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                       @change="if ($event.target.files.length) $wire.addMediaFiles(Array.from($event.target.files))">
+                                <div class="text-center">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" 
+                                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <p class="mt-2 text-sm text-gray-600">
+                                        اسحب الملفات هنا أو انقر للاختيار
+                                    </p>
+                                    <p class="text-xs text-gray-400 mt-1">JPEG, PNG, MP4 (الحد الأقصى 5 ملفات، 5MB لكل ملف)</p>
+                                </div>
                             </div>
-                        @endif
+                        </div>
+                    
+                        <!-- معاينة الوسائط -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+                            @foreach($mediaFiles as $index => $file)
+                                <div class="relative group" wire:key="media-{{ $index }}-{{ $file->getFilename() }}">
+                                    @if(str_starts_with($file->getMimeType(), 'video'))
+                                    <video class="h-32 w-full object-cover border-2 border-gray-200 rounded-lg" controls>
+                                        <source src="{{ $file->temporaryUrl() }}">
+                                    </video>
+                                    @else
+                                    <img src="{{ $file->temporaryUrl() }}" 
+                                         class="h-32 w-full object-cover border-2 border-gray-200 rounded-lg">
+                                    @endif
+                                    <button type="button" 
+                                            wire:click="removeSelectedImage({{ $index }})"
+                                            class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
 
                     <!-- فيديو يوتيوب -->
@@ -244,7 +275,7 @@
                     <!-- السعر والحالة -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">💵 السعر (ر.س)</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">💵 السعر (دولار)</label>
                             <input type="number" step="0.01" wire:model.defer="price"
                                 class="w-full px-4 py-3 border border-gray-300  focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             @error('price')
@@ -344,7 +375,7 @@
     @if (!$showForm)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($services as $service)
-                <div class="bg-white border rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-white border  shadow-sm hover:shadow-md transition-shadow">
                     <div class="p-4">
                         <!-- رأس البطاقة -->
                         <div class="flex justify-between items-start mb-3">
@@ -412,7 +443,7 @@
                     </div>
                 </div>
             @empty
-                <div class="col-span-full py-12 text-center border rounded-xl">
+                <div class="col-span-full py-12 text-center border ">
                     <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ServiceAdmin extends Component
 {
@@ -16,8 +17,9 @@ class ServiceAdmin extends Component
 
     public $mediaFiles = [];
     public $storedMedia = [];
-    public $videoUrl;
     public $serviceId;
+    public $videoUrl;
+
     public $title;
     public $description;
     public $price;
@@ -27,6 +29,21 @@ class ServiceAdmin extends Component
     public $showForm = false;
     public $filesToDelete = [];
 
+    public $isUploading = false;
+    
+    protected $listeners = ['upload:started' => 'startUpload', 'upload:finished' => 'finishUpload'];
+    
+    public function startUpload()
+    {
+        $this->isUploading = true;
+    }
+    
+    public function finishUpload()
+    {
+        $this->isUploading = false;
+    }
+    
+
     protected $rules = [
         'title' => 'required|string|max:255',
         'description' => 'required|string|min:50',
@@ -34,6 +51,7 @@ class ServiceAdmin extends Component
         'category_id' => 'required|exists:categories,id',
         'mediaFiles.*' => 'mimes:jpg,jpeg,png,mp4,mov,avi|max:5120',
         'videoUrl' => 'nullable|url',
+
     ];
 
     public function updated($propertyName)
@@ -42,37 +60,29 @@ class ServiceAdmin extends Component
     }
 
     public function addMediaFiles($files)
-{
-    dd( $this->mediaFiles);
-    foreach ($files as $file) {
-        $this->mediaFiles[] = $file;
+    {
+        $this->mediaFiles = array_merge($this->mediaFiles, $files);
     }
-}
 
-public function removeSelectedImage($index)
-{
-    if (isset($this->mediaFiles[$index])) {
-        unset($this->mediaFiles[$index]);
-        $this->mediaFiles = array_values($this->mediaFiles); // إعادة ترتيب الفهرس
+    public function removeSelectedImage($index)
+    {
+        if (isset($this->mediaFiles[$index])) {
+            unset($this->mediaFiles[$index]);
+            $this->mediaFiles = array_values($this->mediaFiles);
+        }
     }
-}
 
     public function deleteStoredMedia($mediaId)
     {
         $media = Media::with('service')->findOrFail($mediaId);
-        
-        $this->authorize('delete', $media->service);
-        
         Storage::disk('public')->delete($media->file_path);
         $media->delete();
-
         $this->storedMedia = collect($this->storedMedia)
             ->reject(fn ($item) => $item['id'] == $mediaId)
             ->values()
             ->toArray();
     }
 
- 
     public function render()
     {
         return view('livewire.service-admin', [
@@ -83,6 +93,7 @@ public function removeSelectedImage($index)
             'categories' => Category::all()
         ])->layout('layouts.dashboard');
     }
+
     public function showAddForm()
     {
         $this->resetForm();
@@ -101,10 +112,10 @@ public function removeSelectedImage($index)
             'status' => $this->status,
             'user_id' => Auth::id(),
             'category_id' => $this->category_id,
+            'videoUrl' => $this->videoUrl,
         ]);
 
         $this->handleMediaUpload($service);
-
         session()->flash('message', 'تم إضافة الخدمة بنجاح!');
         $this->resetForm();
     }
@@ -112,13 +123,11 @@ public function removeSelectedImage($index)
     public function editService($id)
     {
         $service = Service::with(['media', 'category'])
-            ->whereUserId(Auth::id())
+            ->where('user_id', Auth::id())
             ->findOrFail($id);
 
         $this->serviceId = $service->id;
-        $this->fill($service->only([
-            'title', 'description', 'price', 'status', 'category_id'
-        ]));
+        $this->fill($service->only(['title', 'description', 'price', 'status', 'category_id']));
         
         $this->storedMedia = $service->media->map(fn ($media) => [
             'id' => $media->id,
@@ -134,13 +143,9 @@ public function removeSelectedImage($index)
     {
         $this->validate();
 
-        $service = Service::whereUserId(Auth::id())
-            ->findOrFail($this->serviceId);
-
-        $service->update($this->only([
-            'title', 'description', 'price', 'status', 'category_id'
-        ]));
-
+        $service = Service::findOrFail($this->serviceId);
+        $service->update($this->only(['title', 'description', 'price', 'status', 'category_id']));
+        
         $this->handleMediaUpload($service);
         $this->deleteMarkedFiles();
 
@@ -150,30 +155,19 @@ public function removeSelectedImage($index)
 
     public function deleteService($id)
     {
-        $service = Service::with('media')
-            ->whereUserId(Auth::id())
-            ->findOrFail($id);
-
-        $this->authorize('delete', $service);
-        
+        $service = Service::with('media')->findOrFail($id);
         foreach ($service->media as $media) {
             Storage::disk('public')->delete($media->file_path);
         }
-        
         $service->media()->delete();
         $service->delete();
-
         session()->flash('message', 'تم الحذف بنجاح!');
     }
 
     protected function handleMediaUpload(Service $service)
     {
         foreach ($this->mediaFiles as $file) {
-            $path = $file->store(
-                "services/{$service->id}/" . date('Y-m'), 
-                'public'
-            );
-            
+            $path = $file->store("services/{$service->id}", 'public');
             $service->media()->create([
                 'file_path' => $path,
                 'file_type' => $this->getFileType($file),
@@ -182,20 +176,9 @@ public function removeSelectedImage($index)
         }
     }
 
-    protected function deleteMarkedFiles()
-    {
-        if (!empty($this->filesToDelete)) {
-            Media::whereIn('id', $this->filesToDelete)
-                ->whereUserId(Auth::id())
-                ->delete();
-        }
-    }
-
     private function getFileType($file)
     {
-        return str_starts_with($file->getMimeType(), 'video/') 
-            ? 'video' 
-            : 'image';
+        return str_starts_with($file->getMimeType(), 'video/') ? 'video' : 'image';
     }
 
     public function resetForm()
