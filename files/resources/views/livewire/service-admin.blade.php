@@ -189,9 +189,9 @@
                                     </p>
                                     <p class="text-xs text-gray-400 mt-1">JPEG, PNG, MP4 (الحد الأقصى 5 ملفات، 5MB لكل
                                         ملف)</p>
-                                </div>
-                                <div x-show="isUploading">
-                                    <progress  max="100" x-bind:value="progress"></progress>
+                                        <div x-show="isUploading">
+                                            <progress  max="100" x-bind:value="progress"></progress>
+                                        </div>
                                 </div>
                             </div>
                         </div>
