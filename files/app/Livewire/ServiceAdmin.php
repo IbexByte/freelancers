@@ -28,20 +28,7 @@ class ServiceAdmin extends Component
     public $isEditing = false;
     public $showForm = false;
     public $filesToDelete = [];
-
-    public $isUploading = false;
-    
-    protected $listeners = ['upload:started' => 'startUpload', 'upload:finished' => 'finishUpload'];
-    
-    public function startUpload()
-    {
-        $this->isUploading = true;
-    }
-    
-    public function finishUpload()
-    {
-        $this->isUploading = false;
-    }
+ 
     
 
     protected $rules = [

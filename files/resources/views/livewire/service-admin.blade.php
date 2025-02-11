@@ -159,84 +159,63 @@
 
                     <!-- تحميل الصور -->
                     <!-- قسم تحميل الوسائط -->
-                    <div x-data="{
-                        isDragging: false,
-                        isUploading: @entangle('isUploading'),
-                        showLoading: false,
-                        uploadTimeout: null,
-                        
-                        handleUploadStart() {
-                            this.showLoading = true;
-                            // إخفاء المؤشر بعد 30 ثانية كحد أقصى في حالة الخطأ
-                            this.uploadTimeout = setTimeout(() => {
-                                this.showLoading = false;
-                            }, 30000);
-                        },
-                        
-                        handleUploadEnd() {
-                            clearTimeout(this.uploadTimeout);
-                            this.showLoading = false;
-                        }
-                    }" 
-                    x-init="
-                        window.livewire.on('upload:started', () => handleUploadStart());
-                        window.livewire.on('upload:finished', () => handleUploadEnd());
-                    "
-                    class="relative">
+                    <div x-data="{ isUploading: false, progress: 0 }" x-on:livewire-upload-start="isUploading = true"
+                        x-on:livewire-upload-finish="isUploading = false"
+                        x-on:livewire-upload-error="isUploading = false"
+                        x-on:livewire-upload-progress="progress = $event.detail.progress">
                         <!-- مؤشر التحميل -->
-                        <div x-show="showLoading" class="absolute inset-0 bg-white bg-opacity-90 z-50 flex items-center justify-center">
-                            <div class="text-center">
-                                <svg class="animate-spin h-8 w-8 text-blue-500 mx-auto" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-                                </svg>
-                                <p class="mt-2 text-sm text-gray-600">جاري تحميل الملفات...</p>
-                            </div>
-                        </div>
+                        <!-- مؤشر التحميل -->
+                        <!-- Progress Bar -->
                     
+                   
                         <!-- قسم تحميل الوسائط -->
-                        <div @dragover.prevent="isDragging = true"
-                             @dragleave.prevent="isDragging = false"
-                             @drop.prevent="isDragging = false; $wire.addMediaFiles(Array.from($event.dataTransfer.files))">
+                        <div @dragover.prevent="isDragging = true" @dragleave.prevent="isDragging = false"
+                            @drop.prevent="isDragging = false; $wire.addMediaFiles(Array.from($event.dataTransfer.files))">
                             <label class="block text-sm font-medium text-gray-700 mb-2">📸 معرض الأعمال</label>
                             <div class="border-2 border-dashed border-gray-300 p-4 relative transition-colors"
-                                 :class="{ 'border-blue-500 bg-blue-50': isDragging }">
-                                <input type="file" 
-                                       wire:model="mediaFiles"
-                                       multiple 
-                                       accept="image/*,video/*" 
-                                       class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                       @change="if ($event.target.files.length) $wire.addMediaFiles(Array.from($event.target.files))">
+                                :class="{ 'border-blue-500 bg-blue-50': isDragging }">
+                                <input type="file" wire:model="mediaFiles" multiple accept="image/*,video/*"
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    @change="if ($event.target.files.length) $wire.addMediaFiles(Array.from($event.target.files))">
                                 <div class="text-center">
-                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" 
-                                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
+                                        viewBox="0 0 48 48">
+                                        <path
+                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                     <p class="mt-2 text-sm text-gray-600">
                                         اسحب الملفات هنا أو انقر للاختيار
                                     </p>
-                                    <p class="text-xs text-gray-400 mt-1">JPEG, PNG, MP4 (الحد الأقصى 5 ملفات، 5MB لكل ملف)</p>
+                                    <p class="text-xs text-gray-400 mt-1">JPEG, PNG, MP4 (الحد الأقصى 5 ملفات، 5MB لكل
+                                        ملف)</p>
+                                </div>
+                                <div x-show="isUploading">
+                                    <progress  max="100" x-bind:value="progress"></progress>
                                 </div>
                             </div>
                         </div>
-                    
+
                         <!-- معاينة الوسائط -->
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-                            @foreach($mediaFiles as $index => $file)
-                                <div class="relative group" wire:key="media-{{ $index }}-{{ $file->getFilename() }}">
-                                    @if(str_starts_with($file->getMimeType(), 'video'))
-                                    <video class="h-32 w-full object-cover border-2 border-gray-200 rounded-lg" controls>
-                                        <source src="{{ $file->temporaryUrl() }}">
-                                    </video>
+                            @foreach ($mediaFiles as $index => $file)
+                                <div class="relative group"
+                                    wire:key="media-{{ $index }}-{{ $file->getFilename() }}">
+                                    @if (str_starts_with($file->getMimeType(), 'video'))
+                                        <video class="h-32 w-full object-cover border-2 border-gray-200 rounded-lg"
+                                            controls>
+                                            <source src="{{ $file->temporaryUrl() }}">
+                                        </video>
                                     @else
-                                    <img src="{{ $file->temporaryUrl() }}" 
-                                         class="h-32 w-full object-cover border-2 border-gray-200 rounded-lg">
+                                        <img src="{{ $file->temporaryUrl() }}"
+                                            class="h-32 w-full object-cover border-2 border-gray-200 rounded-lg">
                                     @endif
-                                    <button type="button" 
-                                            wire:click="removeSelectedImage({{ $index }})"
-                                            class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    <button type="button" wire:click="removeSelectedImage({{ $index }})"
+                                        class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12" />
                                         </svg>
                                     </button>
                                 </div>
