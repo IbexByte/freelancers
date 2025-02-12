@@ -14,6 +14,7 @@ class Category extends Model
     protected $fillable = ['name', 'description', 'slug', 'image', 'status'];
 
 
+
     protected static function boot()
     {
         parent::boot();
@@ -23,6 +24,12 @@ class Category extends Model
         });
     }
 
+
+        // علاقة التصنيف بالخدمات (واحد إلى متعدد)
+        public function services()
+        {
+            return $this->hasMany(Service::class);
+        }
     // دالة لجلب الصورة الافتراضية إذا لم يتم رفع صورة
     public function getImageUrlAttribute()
     {

@@ -25,9 +25,11 @@
             <!-- الروابط الرئيسية -->
             <div class="flex gap-6">
                 <a href="{{ route('services') }}" class="hover:text-blue-600">➕ أضف خدمة</a>
-                <a href="#" class="hover:text-blue-600">📂 التصنيفات</a>
-                <a href="#" class="hover:text-blue-600">🛍️ المشتريات</a>
-                <a href="#" class="hover:text-blue-600">🚚 الطلبات الواردة</a>
+                <livewire:categories-menu />
+                <livewire:cart-notification />
+
+                <livewire:incoming-orders-notification />
+
             </div>
 
             <!-- أدوات المستخدم -->
@@ -98,7 +100,7 @@
                 <i class="fas fa-search text-xl"></i>
                 <span class="text-xs">البحث</span>
             </a>
-            <a href="#" class="mobile-nav-item">
+            <a href="{{ route('cart.index') }}" class="mobile-nav-item">
                 <i class="fas fa-shopping-cart text-xl"></i>
                 <span class="text-xs">السلة</span>
             </a>
@@ -130,8 +132,9 @@
                 <div class="flex gap-6">
                     <a href="{{ route('services') }}" class="hover:text-blue-600">➕ أضف خدمة</a>
                     <a href="#" class="hover:text-blue-600">📂 التصنيفات</a>
-                    <a href="#" class="hover:text-blue-600">🛍️ المشتريات</a>
-                    <a href="#" class="hover:text-blue-600">🚚 الطلبات الواردة</a>
+                    <livewire:cart-notification />
+                    <livewire:incoming-orders-notification />
+
                 </div>
 
                 <!-- أدوات المستخدم -->
@@ -168,7 +171,7 @@
                     <i class="fas fa-search text-xl"></i>
                     <span class="text-xs">البحث</span>
                 </a>
-                <a href="#" class="mobile-nav-item">
+                <a href="{{ route('cart.index') }}" class="mobile-nav-item">
                     <i class="fas fa-shopping-cart text-xl"></i>
                     <span class="text-xs">السلة</span>
                 </a>

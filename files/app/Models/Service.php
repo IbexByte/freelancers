@@ -12,6 +12,7 @@ class Service extends Model
         'title',
         'description',
         'price',
+        'delivery_time',
         'status',
         'user_id',
         'category_id'
@@ -35,20 +36,20 @@ class Service extends Model
     }
 
     public function reviews()
-{
-    return $this->hasMany(Review::class);
-}
+    {
+        return $this->hasMany(Review::class);
+    }
 
 
-public function getReviewsCountAttribute()
-{
-    return $this->reviews()->count();
-}
+    public function getReviewsCountAttribute()
+    {
+        return $this->reviews()->count();
+    }
 
-public function getAverageRatingAttribute()
-{
-    return round($this->reviews()->avg('rating'), 1);
-}
+    public function getAverageRatingAttribute()
+    {
+        return round($this->reviews()->avg('rating'), 1);
+    }
 
 
 
@@ -63,4 +64,25 @@ public function getAverageRatingAttribute()
         // إرجاع رابط افتراضي إذا لم يكن هناك مرفقات
         return asset('images/default.png');
     }
+
+       // العلاقة مع المستخدم (مزود الخدمة)
+       public function provider()
+       {
+           return $this->belongsTo(User::class, 'user_id');
+       }
+   
+ 
+   
+       // العلاقة مع الطلبات (Orders)
+       public function orders()
+       {
+           return $this->hasMany(Order::class);
+       }
+   
+       // العلاقة مع عناصر عربة التسوق (CartItems)
+       public function cartItems()
+       {
+           return $this->hasMany(CartItem::class);
+       }
+   
 }

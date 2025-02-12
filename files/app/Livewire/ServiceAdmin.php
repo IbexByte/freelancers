@@ -27,6 +27,8 @@ class ServiceAdmin extends Component
     public $category_id;
     public $isEditing = false;
     public $showForm = false;
+    public $delivery_time;
+
     public $filesToDelete = [];
  
     
@@ -38,6 +40,8 @@ class ServiceAdmin extends Component
         'category_id' => 'required|exists:categories,id',
         'mediaFiles.*' => 'mimes:jpg,jpeg,png,mp4,mov,avi|max:5120',
         'videoUrl' => 'nullable|url',
+        'delivery_time' => 'required|integer|min:1',
+
 
     ];
 
@@ -57,6 +61,11 @@ class ServiceAdmin extends Component
             unset($this->mediaFiles[$index]);
             $this->mediaFiles = array_values($this->mediaFiles);
         }
+    }
+
+    public function updatedDeliveryTime()
+    {
+        $this->validateOnly('delivery_time');
     }
 
     public function deleteStoredMedia($mediaId)
@@ -100,6 +109,8 @@ class ServiceAdmin extends Component
             'user_id' => Auth::id(),
             'category_id' => $this->category_id,
             'videoUrl' => $this->videoUrl,
+            'delivery_time' => $this->delivery_time,
+
         ]);
 
         $this->handleMediaUpload($service);

@@ -65,4 +65,36 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+        // العلاقة مع الخدمات المقدمة (كمزود خدمة)
+        public function services()
+        {
+            return $this->hasMany(Service::class, 'user_id');
+        }
+    
+        // العلاقة مع الطلبات (كعميل)
+        public function orders()
+        {
+            return $this->hasMany(Order::class, 'user_id');
+        }
+    
+        // العلاقة مع الطلبات (كمزود خدمة)
+        public function providedOrders()
+        {
+            return $this->hasMany(Order::class, 'provider_id');
+        }
+    
+        // العلاقة مع عناصر عربة التسوق (CartItems)
+        public function cartItems()
+        {
+            return $this->hasMany(CartItem::class);
+        }
+    
+        // العلاقة مع المراجعات (Reviews)
+        public function reviews()
+        {
+            return $this->hasMany(Review::class);
+        }
+    
 }

@@ -10,7 +10,8 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+<!-- تضمين مكتبة SwiperJS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
         <!-- Scripts -->
         @vite(['resources/scss/tailwind.scss', 'resources/js/app.js'])
 
@@ -89,6 +90,9 @@
                     class="py-1 px-3 relative inline-block rounded-t-md -rotate-90 bg-white shadow-md font-bold ltr:block rtl:hidden">RTL</span>
             </a>
         </div> --}}
+
+        <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
         <!-- LTR & RTL Mode Code -->
         <script src="{{ asset('build/assets/app-CqflisoM.js') }}"></script>
         <!-- JAVASCRIPTS -->

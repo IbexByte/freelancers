@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
        // السماح بكتابة الحقول التالية
-       protected $fillable = ['service_id', 'user_id', 'rating', 'comment'];
-
+  protected $fillable = [
+        'order_id',
+        'user_id',
+        'service_id',
+        'rating',
+        'comment'
+    ];
        /**
         * علاقة التقييم مع الخدمة.
         */
@@ -24,4 +29,12 @@ class Review extends Model
        {
            return $this->belongsTo(User::class);
        }
+
+           // العلاقة مع الطلب (Order)
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+  
 }

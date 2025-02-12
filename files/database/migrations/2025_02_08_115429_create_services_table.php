@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
+            $table->unsignedInteger('delivery_time'); 
             $table->decimal('price', 10, 2);
             $table->boolean('status')->default(true); // مفعلة أم لا
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // مزود الخدمة
