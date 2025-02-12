@@ -210,19 +210,19 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="sidebar-link">
+                            <a href="{{ route('cart.index' ) }}" class="sidebar-link">
                                 <i class="fas fa-shopping-bag"></i>
                                 <span>المشتريات</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="sidebar-link">
+                            <a href="{{ route('incoming-orders') }}" class="sidebar-link">
                                 <i class="fas fa-truck"></i>
                                 <span>الطلبات الواردة</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="sidebar-link">
+                            <a href="{{ route('category.show', 1) }}" class="sidebar-link">
                                 <i class="fas fa-box-open"></i>
                                 <span>التصنيفات</span>
                             </a>
