@@ -96,9 +96,9 @@
                 <i class="fas fa-home text-xl"></i>
                 <span class="text-xs">الرئيسية</span>
             </a>
-            <a href="#" class="mobile-nav-item">
-                <i class="fas fa-search text-xl"></i>
-                <span class="text-xs">البحث</span>
+            <a href="{{ route('cart.index') }}" class="mobile-nav-item">
+                <i class="fas fa-envelope"></i>
+                <span class="text-xs">الرسائل</span>
             </a>
             <a href="{{ route('cart.index') }}" class="mobile-nav-item">
                 <i class="fas fa-shopping-cart text-xl"></i>
@@ -141,7 +141,7 @@
                 <div class="flex items-center gap-4">
                     <button class="hover:text-blue-600"><i class="fas fa-shopping-cart"></i></button>
                     <button class="hover:text-blue-600"><i class="fas fa-search"></i></button>
-                    <button class="hover:text-blue-600"><i class="fas fa-envelope"></i></button>
+                    <a href="{{ route('cart.index') }}" class="hover:text-blue-600"><i class="fas fa-envelope"></i></a>
                     <button class="hover:text-blue-600"><i class="fas fa-bell"></i></button>
 
                     <div class="relative group">
@@ -167,9 +167,9 @@
                     <i class="fas fa-home text-xl"></i>
                     <span class="text-xs">الرئيسية</span>
                 </a>
-                <a href="#" class="mobile-nav-item">
-                    <i class="fas fa-search text-xl"></i>
-                    <span class="text-xs">البحث</span>
+                <a href="{{ route('chat') }}" class="mobile-nav-item">
+                    <i class="fas fa-envelope  text-xl"></i>
+                    <span class="text-xs">الرسائل</span>
                 </a>
                 <a href="{{ route('cart.index') }}" class="mobile-nav-item">
                     <i class="fas fa-shopping-cart text-xl"></i>

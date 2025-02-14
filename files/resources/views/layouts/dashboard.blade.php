@@ -41,10 +41,12 @@
  
     <x-nav-left-light />
 
-  <!-- منطقة المحتوى الرئيسية -->
-  <div class="flex-1 mt-12">
-    {{ $slot }}
-</div>
+    <div class="font-sans text-gray-900 antialiased max-h-[calc(100vh-60px)] overflow-auto">
+        {{ $slot }}
+    </div>
+    
+ 
+    
 
     <!-- 3) Footer -->
     <footer class="bg-white text-gray-400 h-10 flex items-center justify-center text-sm border-t mt-auto">

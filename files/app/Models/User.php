@@ -32,6 +32,15 @@ class User extends Authenticatable
         'password',
     ];
 
+
+  
+    
+    public function isOnline()
+    {
+        return $this->last_active_at && 
+               $this->last_active_at->gt(now()->subMinutes(5));
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -63,6 +72,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_active_at' => 'datetime',
         ];
     }
 

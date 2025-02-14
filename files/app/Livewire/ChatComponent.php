@@ -9,66 +9,135 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatComponent extends Component
 {
-    public $conversation;
+    public $conversations;  // قائمة المحادثات
+    public $conversation;   // المحادثة المحددة
+    public $messages = [];  // رسائل المحادثة المحددة
+    public $recipient;      // الطرف الآخر
     public $newMessage = '';
-    public $messages;
-    public $recipient;
 
-    protected $listeners = ['messageReceived' => 'loadMessages'];
+    protected $listeners = [
+        'messageReceived' => 'loadMessages',
+    ];
 
-    public function mount(Conversation $conversation)
+    protected $rules = [
+        'newMessage' => 'required|max:1000',
+    ];
+
+    public function mount()
     {
-        $this->conversation = $conversation;
-        $this->recipient = $conversation->user_id == Auth::id()
-            ? $conversation->provider
-            : $conversation->user;
-        $this->loadMessages();
+        // تحميل قائمة المحادثات
+        $this->loadConversations();
+
+
     }
 
+    /**
+     * تحميل محادثات المستخدم
+     */
+    public function loadConversations()
+    {
+        $this->conversations = Conversation::where('user_id', Auth::id())
+            ->orWhere('provider_id', Auth::id())
+            ->with(['messages' => fn($q) => $q->latest()])
+            ->orderByDesc('updated_at')
+            ->get()
+            ->map(function ($conv) {
+                // حساب الرسائل غير المقروءة
+                $conv->unread_count = $conv->messages()
+                    ->where('sender_id', '!=', Auth::id())
+                    ->where('read', false)
+                    ->count();
+                return $conv;
+            });
+    }
+
+    /**
+     * اختيار محادثة
+     */
+    public function selectConversation($conversationId)
+    {
+        $this->conversation = Conversation::findOrFail($conversationId);
+        $this->setupConversation();
+    }
+
+    /**
+     * تجهيز بيانات المحادثة الحالية
+     */
+    private function setupConversation()
+    {
+        $this->recipient = $this->conversation->user_id == Auth::id()
+            ? $this->conversation->provider
+            : $this->conversation->user;
+
+        $this->loadMessages();
+        $this->markAsRead();
+    }
+
+    /**
+     * تحميل الرسائل
+     */
     public function loadMessages()
     {
+        if (!$this->conversation) {
+            $this->messages = [];
+            return;
+        }
+
         $this->messages = $this->conversation->messages()
             ->with('sender')
             ->orderBy('created_at', 'asc')
             ->get();
     }
 
+    /**
+     * إرسال رسالة جديدة
+     */
     public function sendMessage()
     {
-        $this->validate(['newMessage' => 'required|max:1000']);
+         
 
-        $message = $this->conversation->messages()->create([
+        if (!$this->conversation) return;
+
+        $this->conversation->messages()->create([
             'sender_id' => Auth::id(),
-            'content' => $this->newMessage
+            'content'   => $this->newMessage
         ]);
 
         $this->newMessage = '';
         $this->loadMessages();
-        $this->dispatchBrowserEvent('scroll-bottom');
-        $this->emitSelf('messageReceived');
+        $this->dispatch('messageReceived'); // للتمرير لأسفل
     }
 
-    // في ChatComponent
+    /**
+     * تعليم الرسائل كمقروءة
+     */
     public function markAsRead()
     {
+        if (!$this->conversation) return;
+
         $this->conversation->messages()
             ->where('sender_id', '!=', Auth::id())
+            ->where('read', false)
             ->update(['read' => true]);
     }
 
-    public function getListeners()
+    /**
+     * زر الرجوع إلى القائمة
+     */
+    public function backToList()
     {
-        return [
-            "echo-private:conversation.{$this->conversation->id},MessageSent" => 'notifyNewMessage',
-        ];
+        $this->conversation = null;
+        $this->messages = [];
+        $this->recipient = null;
+        $this->newMessage = '';
     }
 
-    
-
-    public function notifyNewMessage()
+    /**
+     * زر الإغلاق (مثلاً للعودة للصفحة الرئيسية)
+     */
+    public function closeChat()
     {
-        $this->emitSelf('messageReceived');
-        $this->markAsRead();
+        return redirect()->route('dashboard');
     }
 
     public function render()
