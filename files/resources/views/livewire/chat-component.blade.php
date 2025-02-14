@@ -1,4 +1,4 @@
-<div class=" h-[89vh]  bg-[#eee] ">
+<div class=" h-[95vh]  bg-[#eee] ">
 
     <!-- نستخدم حاوية عامة لسهولة التحكم بالتجاوب والمسافات -->
     <div class="container mx-auto px-2 bg-[#eee] py-4 sm:px-6 sm:py-6 md:px-8 md:py-8">
@@ -71,7 +71,7 @@
         @else
             <!-- =================== واجهة الدردشة =================== -->
             <!-- نستخدم flex-1 هنا كي يتمدد المحتوى على كامل الصفحة عموديًا -->
-            <div class="flex flex-col md:h-[76vh] h-[85vh] bg-[#eee]">
+            <div class="flex flex-col md:h-[76vh] h-[90vh] bg-[#eee]">
              
                 <!-- الهيدر -->
                 <div
@@ -110,7 +110,7 @@
                 </div>
 
                 <!-- الرسائل -->
-                <div class="flex-1 bg-[#eee] h-[90vh] no-scrollbar w-full overflow-y-auto pb-10 pt-24  px-0 space-y-3 scroll-smooth"
+                <div class="flex-1 bg-[#eee] h-[90vh] no-scrollbar w-full overflow-y-auto pb-12 pt-24  px-0 space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
 
                     @foreach ($messages as $message)
