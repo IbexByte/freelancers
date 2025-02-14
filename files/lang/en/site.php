@@ -82,30 +82,30 @@ return [
     'service_rating' => 'Rating',
 
     // English translations
-    'business_solutions_section_title_en' => 'Comprehensive Solutions to Grow Your Business',
-    'solution_digital_transformation_en' => 'Transform Your Business Digitally',
-    'solution_start_business_en' => 'Start Your Business',
-    'solution_create_store_en' => 'Create Your Online Store',
-    'solution_launch_website_en' => 'Launch Your Website',
-    'solution_wordpress_en' => 'Build Your Website on WordPress',
-    'solution_digital_marketing_en' => 'Digital Marketing Solutions',
-    'solution_create_course_en' => 'Create Your Online Course',
-    'solution_publish_book_en' => 'Publish Your Book Online',
+    'business_solutions_section_title' => 'Comprehensive Solutions to Grow Your Business',
+    'solution_digital_transformation' => 'Transform Your Business Digitally',
+    'solution_start_business' => 'Start Your Business',
+    'solution_create_store' => 'Create Your Online Store',
+    'solution_launch_website' => 'Launch Your Website',
+    'solution_wordpress' => 'Build Your Website on WordPress',
+    'solution_digital_marketing' => 'Digital Marketing Solutions',
+    'solution_create_course' => 'Create Your Online Course',
+    'solution_publish_book' => 'Publish Your Book Online',
 
     // English translations
-    'footer_about_us_en' => 'About Us',
-    'footer_services_en' => 'Services',
-    'footer_team_en' => 'Our Team',
-    'footer_pricing_en' => 'Pricing',
-    'footer_projects_en' => 'Projects',
-    'footer_blog_en' => 'Blog',
-    'footer_terms_en' => 'Terms of Service',
-    'footer_privacy_en' => 'Privacy Policy',
-    'footer_contact_en' => 'Contact Us',
-    'footer_follow_us_en' => 'Follow Us On',
-    'footer_subscribe_en' => 'Subscribe for the latest updates',
-    'footer_email_placeholder_en' => 'Enter your email',
-    'footer_subscribe_button_en' => 'Subscribe',
+    'footer_about_us' => 'About Us',
+    'footer_services' => 'Services',
+    'footer_team' => 'Our Team',
+    'footer_pricing' => 'Pricing',
+    'footer_projects' => 'Projects',
+    'footer_blog' => 'Blog',
+    'footer_terms' => 'Terms of Service',
+    'footer_privacy' => 'Privacy Policy',
+    'footer_contact' => 'Contact Us',
+    'footer_follow_us' => 'Follow Us On',
+    'footer_subscribe' => 'Subscribe for the latest updates',
+    'footer_email_placeholder' => 'Enter your email',
+    'footer_subscribe_button' => 'Subscribe',
 
 
     'create_category' => 'ِCreate New Category',
@@ -115,6 +115,11 @@ return [
     'write_your_bio_her' => 'here write a brief summary about yourself',
     'profile' => 'Profile ' ,
     'settings' => 'Settings' ,
+
+
+    'logo' => 'Logo',
+
+    'footer_copyright' => '© 2025 YourCompany. All rights reserved.',
 
 
 ];

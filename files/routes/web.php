@@ -31,7 +31,7 @@ Route::get('/storage-link', function () {
 Route::resource('categories', CategoryController::class);
 Route::get('incoming-orders', IncomingOrders::class)->name('incoming-orders');
 Route::get('Cart-items', Cart::class)->name('cart.index');
-Route::get('/chat',  ChatComponent::class)->name('chat');
+Route::get('/chat', ChatComponent::class)->name('chat');
 Route::get('userProfile', UserProfile::class)->name('userProfile');
 Route::get('services', ServiceAdmin::class)->name('services');
 Route::get('service/{service}', ServiceShow::class)->name('services.show');
