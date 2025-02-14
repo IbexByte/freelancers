@@ -1,7 +1,7 @@
-<div class="h-fit bg-gray-100">
+<div class=" h-[90vh]  bg-[#eee] ">
 
     <!-- نستخدم حاوية عامة لسهولة التحكم بالتجاوب والمسافات -->
-    <div class="container mx-auto px-4 py-4 sm:px-6 sm:py-6 md:px-8 md:py-8">
+    <div class="container mx-auto px-2 bg-[#eee] py-4 sm:px-6 sm:py-6 md:px-8 md:py-8">
 
         @if (!$conversation)
             <!-- =================== قائمة المحادثات =================== -->
@@ -71,7 +71,7 @@
         @else
             <!-- =================== واجهة الدردشة =================== -->
             <!-- نستخدم flex-1 هنا كي يتمدد المحتوى على كامل الصفحة عموديًا -->
-            <div class="flex flex-col h-screen bg-white">
+            <div class="flex flex-col h-[80vh] bg-white">
                 <!-- الهيدر -->
                 <div
                     class="md:top-10 top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed md:rounded-md shadow-sm z-50">
@@ -109,12 +109,9 @@
                 </div>
 
                 <!-- الرسائل -->
-                <div class="flex-1 overflow-y-auto pt-20 pb-24 px-4 space-y-3 bg-[#f2f2f2] scroll-smooth"
-                    x-data="{
-                        scrollToBottom() {
-                            this.$el.scrollTop = this.$el.scrollHeight
-                        }
-                    }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
+                <!-- الرسائل -->
+                <div class="flex-1 bg-[#eee] no-scrollbar w-full overflow-y-auto pt-20 pb-24 px-0 space-y-3 scroll-smooth"
+                    x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
 
                     @foreach ($messages as $message)
                         <div
@@ -126,14 +123,27 @@
 
                             <div
                                 class="max-w-[85%] px-4 py-2 rounded-3xl {{ $message->sender_id == Auth::id()
-                                    ? 'bg-blue-600 text-white rounded-br-none'
-                                    : 'bg-white shadow border border-gray-100 rounded-bl-none' }}">
+                                    ? 'bg-blue-600 text-white rounded-bl-none'
+                                    : 'bg-white shadow border border-gray-100 rounded-br-none' }}">
                                 <p class="text-sm md:text-base leading-relaxed break-words">
                                     {{ $message->content }}
                                 </p>
+
+                                <!-- التعديل على وقت الإرسال -->
                                 <div
-                                    class="text-xs mt-1 {{ $message->sender_id == Auth::id() ? 'text-blue-100' : 'text-gray-500' }}">
-                                    {{ $message->created_at->format('h:i A') }}
+                                    class="flex items-center gap-1 mt-1 {{ $message->sender_id == Auth::id() ? 'text-blue-100' : 'text-gray-600' }}">
+
+                                    <!-- أيقونة الساعة الصغيرة -->
+                                    <svg class="w-3 h-3 opacity-80" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+
+                                    <!-- نص الوقت -->
+                                    <span class="text-[10px] opacity-80 hover:opacity-100 transition-opacity">
+                                        {{ $message->created_at->format('h:i A') }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -144,8 +154,33 @@
                 <div
                     class="bg-white p-4 border-t shadow-[0_-2px_10px_-5px_rgba(0,0,0,0.05)] fixed bottom-0 left-0 right-0 z-50">
                     <form wire:submit.prevent="sendMessage" class="flex gap-2 items-center max-w-2xl mx-auto w-full">
-                        <input type="text" wire:model.debounce.300ms="newMessage" placeholder="اكتب رسالتك..."
-                            class="flex-1 px-4 py-2 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-base">
+                        <!-- أزرار المرفقات والتسجيل -->
+                        <div class="flex items-center gap-1">
+                            <button type="button" class="p-2 text-gray-500 hover:text-blue-600 transition-colors">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                </svg>
+                            </button>
+                            <button type="button" class="p-2 text-gray-500 hover:text-red-600 transition-colors">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                                    <path
+                                        d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- حقل الإدخال المتحرك -->
+                        <div class="flex-1 relative">
+                            <textarea wire:model.debounce.300ms="newMessage" placeholder="اكتب رسالتك..." x-data="{ resize: () => $el.style.height = '48px', $el.style.height = $el.scrollHeight + 'px' }"
+                                x-init="resize()" x-on:input="resize()"
+                                class="w-full px-4 py-2.5 bg-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-base resize-none overflow-hidden"
+                                style="min-height: 48px; max-height: 150px" @keydown.enter.prevent="if (!event.shiftKey) $wire.sendMessage()"></textarea>
+                        </div>
+
+                        <!-- زر الإرسال -->
                         <button type="submit"
                             class="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors shadow-md">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,6 +189,15 @@
                             </svg>
                         </button>
                     </form>
+
+                    <!-- منطقة المرفقات (مخفية حاليا) -->
+                    <div class="max-w-2xl mx-auto mt-2 hidden">
+                        <div class="flex gap-2">
+                            <div class="p-2 border rounded-lg bg-gray-50">
+                                <span class="text-sm text-gray-600">مرفق 1</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

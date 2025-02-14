@@ -57,7 +57,7 @@
  
     <x-nav-left-light />
 
-    <div class="font-sans text-gray-900 antialiased max-h-screen overflow-auto">
+    <div class="font-sans bg-[#eee]  text-gray-900 antialiased overflow-auto">
         {{ $slot }}
     </div>
     
