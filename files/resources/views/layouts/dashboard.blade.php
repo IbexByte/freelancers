@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>لوحة تحكّم المستخدم</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <!-- Tailwind CSS / Your compiled CSS -->
     <!-- FontAwesome Icons (if needed) -->
@@ -31,6 +32,21 @@
     .swiper-button-next::after {
         font-weight: 900;
     }
+ 
+    /* قم بوضع هذا في ملف CSS منفصل أو داخل وسم <style> في أعلى الصفحة */
+
+    .hide-scrollbar {
+        /* لإخفاء الشريط في فايرفوكس */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+        /* لإخفاء الشريط في كروم وسفاري */
+        width: 0px;
+        height: 0px;
+        display: none;
+    }
 </style>
 <!-- في نهاية قسم ال body -->
     @livewireStyles
@@ -41,7 +57,7 @@
  
     <x-nav-left-light />
 
-    <div class="font-sans text-gray-900 antialiased max-h-[calc(100vh-60px)] overflow-auto">
+    <div class="font-sans text-gray-900 antialiased max-h-screen overflow-auto">
         {{ $slot }}
     </div>
     
