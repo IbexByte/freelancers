@@ -1,4 +1,4 @@
-<div class=" h-[90vh]  bg-[#eee] ">
+<div class=" h-[89vh]  bg-[#eee] ">
 
     <!-- نستخدم حاوية عامة لسهولة التحكم بالتجاوب والمسافات -->
     <div class="container mx-auto px-2 bg-[#eee] py-4 sm:px-6 sm:py-6 md:px-8 md:py-8">
@@ -71,7 +71,7 @@
         @else
             <!-- =================== واجهة الدردشة =================== -->
             <!-- نستخدم flex-1 هنا كي يتمدد المحتوى على كامل الصفحة عموديًا -->
-            <div class="flex flex-col h-[80vh] bg-white">
+            <div class="flex flex-col md:h-[76vh] h-[85vh] bg-[#eee]">
                 <!-- الهيدر -->
                 <div
                     class="md:top-10 top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed md:rounded-md shadow-sm z-50">
@@ -110,7 +110,7 @@
 
                 <!-- الرسائل -->
                 <!-- الرسائل -->
-                <div class="flex-1 bg-[#eee] no-scrollbar w-full overflow-y-auto pt-20 pb-24 px-0 space-y-3 scroll-smooth"
+                <div class="flex-1 bg-[#eee] h-[90vh] no-scrollbar w-full overflow-y-auto pb-10 pt-24  px-0 space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
 
                     @foreach ($messages as $message)
@@ -151,11 +151,10 @@
                 </div>
 
                 <!-- حقل الإدخال -->
-                <div
-                    class="bg-white p-4 border-t shadow-[0_-2px_10px_-5px_rgba(0,0,0,0.05)] fixed bottom-0 left-0 right-0 z-50">
-                    <form wire:submit.prevent="sendMessage" class="flex gap-2 items-center max-w-2xl mx-auto w-full">
+                <div class="bg-white p-4 border-t shadow-[0_-2px_10px_-5px_rgba(0,0,0,0.05)] fixed bottom-0 left-0 right-0 z-50">
+                    <form wire:submit.prevent="sendMessage" class="flex gap-2 items-end max-w-2xl mx-auto w-full">
                         <!-- أزرار المرفقات والتسجيل -->
-                        <div class="flex items-center gap-1">
+                        <div class="flex items-center gap-1 mb-2">
                             <button type="button" class="p-2 text-gray-500 hover:text-blue-600 transition-colors">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -164,32 +163,45 @@
                             </button>
                             <button type="button" class="p-2 text-gray-500 hover:text-red-600 transition-colors">
                                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
-                                    <path
-                                        d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
                                 </svg>
                             </button>
                         </div>
-
-                        <!-- حقل الإدخال المتحرك -->
+                
+                       
                         <div class="flex-1 relative">
-                            <textarea wire:model.debounce.300ms="newMessage" placeholder="اكتب رسالتك..." x-data="{ resize: () => $el.style.height = '48px', $el.style.height = $el.scrollHeight + 'px' }"
-                                x-init="resize()" x-on:input="resize()"
-                                class="w-full px-4 py-2.5 bg-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-base resize-none overflow-hidden"
-                                style="min-height: 48px; max-height: 150px" @keydown.enter.prevent="if (!event.shiftKey) $wire.sendMessage()"></textarea>
+                            <textarea 
+                                wire:model.debounce.300ms="newMessage"
+                                placeholder="اكتب رسالتك..."
+                                x-data="{
+                                    baseHeight: 48,
+                                    maxLines: 4,
+                                    resize() {
+                                        const lineHeight = 24; // يجب تعديله حسب حجم الخط
+                                        const maxHeight = lineHeight * this.maxLines;
+                                        
+                                        this.$el.style.height = `${this.baseHeight}px`;
+                                        const newHeight = Math.min(this.$el.scrollHeight, maxHeight);
+                                        this.$el.style.height = `${newHeight}px`;
+                                    }
+                                }"
+                                x-init="resize()"
+                                x-on:input="resize()"
+                                class="w-full px-4 py-2.5 no-scrollbar bg-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-base resize-none overflow-y-auto transition-all duration-200 ease-in-out"
+                                style="min-height: 48px; max-height: 96px" <!-- 4 أسطر × 24px -->
+                                @keydown.enter.prevent="if (!event.shiftKey) $wire.sendMessage()"
+                            ></textarea>
                         </div>
-
+                
                         <!-- زر الإرسال -->
-                        <button type="submit"
-                            class="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors shadow-md">
+                        <button type="submit" class="mb-2 p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors shadow-md">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                             </svg>
                         </button>
                     </form>
-
+                
                     <!-- منطقة المرفقات (مخفية حاليا) -->
                     <div class="max-w-2xl mx-auto mt-2 hidden">
                         <div class="flex gap-2">
