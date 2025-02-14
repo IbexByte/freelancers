@@ -142,6 +142,6 @@ class ChatComponent extends Component
 
     public function render()
     {
-        return view('livewire.chat-component')->layout('layouts.dashboard');
+        return view('livewire.chat-component')->layout('layouts.chat');
     }
 }

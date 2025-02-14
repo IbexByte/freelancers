@@ -72,6 +72,7 @@
             <!-- =================== واجهة الدردشة =================== -->
             <!-- نستخدم flex-1 هنا كي يتمدد المحتوى على كامل الصفحة عموديًا -->
             <div class="flex flex-col md:h-[76vh] h-[85vh] bg-[#eee]">
+             
                 <!-- الهيدر -->
                 <div
                     class="md:top-10 top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed md:rounded-md shadow-sm z-50">
@@ -108,7 +109,6 @@
                     </button>
                 </div>
 
-                <!-- الرسائل -->
                 <!-- الرسائل -->
                 <div class="flex-1 bg-[#eee] h-[90vh] no-scrollbar w-full overflow-y-auto pb-10 pt-24  px-0 space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
