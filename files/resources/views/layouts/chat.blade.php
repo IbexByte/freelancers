@@ -54,11 +54,11 @@
     @livewireStyles
 </head>
 
-<body class="font-arabic ">
+<body class="font-arabic  no-scrollbar ">
 
  
 
-    <div class="font-sans h-screen bg-[#eee]  no-scrollbar  text-gray-900 antialiased ">
+    <div class="font-sans h-screen bg-[#eee]  no-scrollbar  overflow-auto text-gray-900 antialiased ">
         {{ $slot }}
     </div>
     

@@ -1,4 +1,4 @@
-<div class=" h-screen  bg-[#eee] ">
+<div class=" h-screen  no-scrollbar   bg-[#eee] ">
 
     <!-- نستخدم حاوية عامة لسهولة التحكم بالتجاوب والمسافات -->
     <div class="container mx-auto px-2 bg-[#eee] py-4 sm:px-6 sm:py-6 md:px-8 md:py-8">
@@ -71,7 +71,7 @@
         @else
             <!-- =================== واجهة الدردشة =================== -->
             <!-- نستخدم flex-1 هنا كي يتمدد المحتوى على كامل الصفحة عموديًا -->
-            <div class="flex flex-col   bg-[#eee]">
+            <div class="flex flex-col   no-scrollbar  bg-[#eee]">
              
                 <!-- الهيدر -->
                 <div
