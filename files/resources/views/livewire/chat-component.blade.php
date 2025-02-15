@@ -75,7 +75,7 @@
              
                 <!-- الهيدر -->
                 <div
-                    class="md:top-10 top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed md:rounded-md shadow-sm z-50">
+                    class="md:top-10 top-0 left-0 h-[10vh] right-0 bg-white p-4 border-b flex items-center gap-3 fixed md:rounded-md shadow-sm z-50">
                     <!-- زر الرجوع -->
                     <button wire:click="backToList" type="button"
                         class="p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -110,7 +110,7 @@
                 </div>
 
                 <!-- الرسائل -->
-                <div class="flex-1 bg-[#eee] h-[99vh] no-scrollbar w-full overflow-y-auto pb-24 pt-24  px-0 space-y-3 scroll-smooth"
+                <div class="flex-1 bg-[#eee] h-[79vh] no-scrollbar w-full overflow-y-auto pb-24 pt-24  px-0 space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
 
                     @foreach ($messages as $message)
@@ -151,7 +151,7 @@
                 </div>
 
                 <!-- حقل الإدخال -->
-                <div class="bg-white p-4 border-t shadow-[0_-2px_10px_-5px_rgba(0,0,0,0.05)] fixed bottom-0 left-0 right-0 z-50">
+                <div class="bg-white p-4 border-t shadow-[0_-2px_10px_-5px_rgba(0,0,0,0.05)] fixed bottom-0 left-0 right-0 h-[10vh] z-50">
                     <form wire:submit.prevent="sendMessage" class="flex gap-2 items-end max-w-2xl mx-auto w-full">
                         <!-- أزرار المرفقات والتسجيل -->
                         <div class="flex items-center gap-1 mb-2">
