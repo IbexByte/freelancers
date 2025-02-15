@@ -75,7 +75,7 @@
              
                 <!-- الهيدر -->
                 <div
-                    class="md:top-10 top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed md:rounded-md shadow-sm z-50">
+                    class="md:top-0 top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed md:rounded-md shadow-sm z-50">
                     <!-- زر الرجوع -->
                     <button wire:click="backToList" type="button"
                         class="p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
