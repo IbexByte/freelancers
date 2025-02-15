@@ -5,7 +5,7 @@
 
         @if (!$conversation)
             <!-- =================== قائمة المحادثات =================== -->
-            <div class="max-w-2xl w-full mx-auto">
+            <div class="max-w-2xl w-full mt-36 mx-auto">
                 <!-- الهيدر -->
                 <div class="flex items-center justify-between my-6">
                     <h1 class="text-lg sm:text-2xl font-bold text-gray-800">الدردشات</h1>
