@@ -110,7 +110,7 @@
                 </div>
 
                 <!-- الرسائل -->
-                <div class="flex-1 bg-[#eee] h-[90vh] no-scrollbar w-full overflow-y-auto pb-24 pt-24  px-0 space-y-3 scroll-smooth"
+                <div class="flex-1 bg-[#eee] h-[99vh] no-scrollbar w-full overflow-y-auto pb-24 pt-24  px-0 space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
 
                     @foreach ($messages as $message)
