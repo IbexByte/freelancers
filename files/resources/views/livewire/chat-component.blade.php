@@ -1,7 +1,7 @@
-<div class=" h-screen  overflow-hidden   bg-[#eee] ">
+<div class=" bg-[#eee] ">
 
     <!-- نستخدم حاوية عامة لسهولة التحكم بالتجاوب والمسافات -->
-    <div class="container mx-auto px-2 bg-[#eee] py-4 sm:px-6 sm:py-6 md:px-8 md:py-8">
+    <div class="container mx-auto px-2 py-4 sm:px-6 sm:py-6 md:px-8 md:py-8 bg-[#eee]">
 
         @if (!$conversation)
             <!-- =================== قائمة المحادثات =================== -->
@@ -71,11 +71,12 @@
         @else
             <!-- =================== واجهة الدردشة =================== -->
             <!-- نستخدم flex-1 هنا كي يتمدد المحتوى على كامل الصفحة عموديًا -->
-            <div class="flex flex-col   no-scrollbar  bg-[#eee]">
+            <div class="relative flex flex-col bg-[#eee] no-scrollbar">
              
                 <!-- الهيدر -->
                 <div
-                    class="md:top-0 top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed md:rounded-md shadow-sm z-50">
+                    class="md:top-0 top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed 
+                        md:rounded-md shadow-sm z-50">
                     <!-- زر الرجوع -->
                     <button wire:click="backToList" type="button"
                         class="p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -110,7 +111,9 @@
                 </div>
 
                 <!-- الرسائل -->
-                <div class="flex-1 bg-[#eee] h-[80vh] no-scrollbar w-full overflow-y-auto pb-24 pt-24  px-0 space-y-3 scroll-smooth"
+                <div class="flex-1 bg-[#eee] 
+                        no-scrollbar w-full overflow-y-auto 
+                        pb-24 pt-24 px-0 space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
 
                     @foreach ($messages as $message)
