@@ -75,7 +75,7 @@
              
                 <!-- الهيدر -->
                 <div
-                    class="md:top-0 top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed 
+                    class="md:top-0  top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed 
                         md:rounded-md shadow-sm z-50">
                     <!-- زر الرجوع -->
                     <button wire:click="backToList" type="button"
@@ -113,7 +113,7 @@
                 <!-- الرسائل -->
                 <div class="flex-1 bg-[#eee]  
                         no-scrollbar w-full overflow-y-auto 
-                        pb-32 pt-28 px-0 space-y-3 scroll-smooth"
+                        pb-32 pt-32 px-0 space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
 
                     @foreach ($messages as $message)
