@@ -58,7 +58,7 @@
 
  
 
-    <div class="font-sans h-screen bg-[#eee]  text-gray-900 antialiased overflow-hidden">
+    <div class="font-sans h-screen bg-[#eee]  text-gray-900 antialiased ">
         {{ $slot }}
     </div>
     
