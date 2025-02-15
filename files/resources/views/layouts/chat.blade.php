@@ -47,6 +47,40 @@
         height: 0px;
         display: none;
     }
+
+    /* إضافة هذه الأنماط في قسم الـ style */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.messages-area {
+    flex: 1;
+    overflow-y: auto;
+    padding-top: 8rem;  /* يتناسب مع ارتفاع الهيدر */
+    padding-bottom: 8rem; /* يتناسب مع ارتفاع حقل الإدخال */
+    scroll-behavior: smooth;
+}
+
+/* إصلاح تموضع العناصر الثابتة */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    height: 10vh;
+}
+
+.fixed-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    height: 10vh;
+}
 </style>
 <!-- في نهاية قسم ال body -->
     @livewireStyles
