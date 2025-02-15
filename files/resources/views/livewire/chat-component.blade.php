@@ -123,18 +123,41 @@
                 </div>
 
                 <!-- الرسائل -->
-                <div class="flex-1 bg-[#eee]  
-                        no-scrollbar w-full overflow-y-auto 
-                        pb-44 pt-52 px-0 space-y-3 scroll-smooth"
+                <div class="flex-1 bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44 pt-52 md:pt-44 px-0 space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
 
+                    @php
+                        $lastDate = null;
+                    @endphp
+
                     @foreach ($messages as $message)
+                        @php
+                            $currentDate = $message->created_at->format('Y-m-d');
+                        @endphp
+
+                        @if ($currentDate != $lastDate)
+                            <!-- تاريخ اليوم -->
+                            <div class="flex justify-center my-4">
+                                <span class="px-3 py-1 text-xs text-gray-600 bg-gray-100 rounded-full">
+                                    @if ($message->created_at->isToday())
+                                        اليوم
+                                    @elseif ($message->created_at->isYesterday())
+                                        أمس
+                                    @else
+                                        {{ $message->created_at->translatedFormat('j F Y') }}
+                                    @endif
+                                </span>
+                            </div>
+                            @php $lastDate = $currentDate @endphp
+                        @endif
+
+                        <!-- الرسالة -->
                         <div
                             class="flex items-end gap-x-2 {{ $message->sender_id == Auth::id() ? 'justify-end' : 'justify-start' }}">
-                            @if ($message->sender_id != Auth::id())
+                            {{-- @if ($message->sender_id != Auth::id())
                                 <img src="{{ $recipient->profile_photo_url }}" alt="صورة المرسل"
                                     class="w-10 h-10 rounded-full object-cover shadow border-2 border-white">
-                            @endif
+                            @endif --}}
 
                             <div
                                 class="max-w-[85%] px-4 py-2 rounded-3xl {{ $message->sender_id == Auth::id()
@@ -144,19 +167,15 @@
                                     {{ $message->content }}
                                 </p>
 
-                                <!-- التعديل على وقت الإرسال -->
+                                <!-- وقت الإرسال -->
                                 <div
                                     class="flex items-center gap-1 mt-1 {{ $message->sender_id == Auth::id() ? 'text-blue-100' : 'text-gray-600' }}">
-
-                                    <!-- أيقونة الساعة الصغيرة -->
                                     <svg class="w-3 h-3 opacity-80" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-
-                                    <!-- نص الوقت -->
-                                    <span class="text-[10px] opacity-80 hover:opacity-100 transition-opacity">
+                                    <span class="text-[10px] opacity-80">
                                         {{ $message->created_at->format('h:i A') }}
                                     </span>
                                 </div>
