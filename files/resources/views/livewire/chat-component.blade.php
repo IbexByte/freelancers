@@ -199,7 +199,7 @@
                                 x-init="resize()"
                                 x-on:input="resize()"
                                 class="w-full px-4 py-2.5  no-scrollbar  bg-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 
-                                       text-base resize-none overflow-y-auto  h-5
+                                       text-base resize-none overflow-y-auto  h-5 no-scrollbar
                                        transition-all duration-200 ease-in-out hover:bg-gray-50 focus:bg-white"
                                 style="min-height: 48px; max-height: 96px"
                                 @keydown.enter.prevent="if (!event.shiftKey) $wire.sendMessage()"
