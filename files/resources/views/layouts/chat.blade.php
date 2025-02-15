@@ -54,7 +54,7 @@
     @livewireStyles
 </head>
 
-<body class=" ">
+<body class="font-arabic ">
 
  
 
