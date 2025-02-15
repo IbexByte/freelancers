@@ -48,7 +48,7 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center justify-between">
-                                <h3 class="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+                                <h3 class="font-semibold text-gray-800   transition-colors">
                                     {{ $participant->name ?? 'مستخدم مجهول' }}
                                 </h3>
                                 <span class="text-xs text-gray-400">
