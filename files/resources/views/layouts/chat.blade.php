@@ -52,9 +52,9 @@
     @livewireStyles
 </head>
 
-<body class="h-full font-arabic overflow-hidden bg-[#eee] text-gray-900 antialiased font-sans no-scrollbar">
+<body class=" h-full font-arabic-noto  overflow-hidden bg-[#eee] text-gray-900 antialiased font-sans no-scrollbar">
      
-    <div class="h-screen w-screen overflow-hidden">
+    <div class="h-screen w-screen overflow-auto">
         <!-- العنصر الابن يسمح بالتمرير عند الحاجة -->
         <div class="h-full w-full overflow-auto no-scrollbar">
             {{ $slot }}

@@ -28,6 +28,7 @@ export default {
             'para-worksans': ['"Work Sans", sans-serif'],
             'arabic2': ['"Almarai", sans-serif'],
             'arabic': ['"Tajawal", sans-serif'],
+            'arabic-noto': ['"Noto Sans Arabic"', 'sans-serif'], 
         },
         container: {
             center: true,
