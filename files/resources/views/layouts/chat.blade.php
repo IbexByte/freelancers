@@ -58,7 +58,7 @@
 
  
 
-    <div class="font-sans h-screen bg-[#eee]  text-gray-900 antialiased ">
+    <div class="font-sans h-screen bg-[#eee]  no-scrollbar  text-gray-900 antialiased ">
         {{ $slot }}
     </div>
     
