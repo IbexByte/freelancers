@@ -117,7 +117,7 @@
                 </div>
 
                 <!-- الرسائل -->
-                <div style="height: calc(100vh - 4rem )" class="flex-1  mx-auto   px-2   sm:px-6   md:px-8 bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44   space-y-3 scroll-smooth"
+                <div style="height: calc(100vh - 4rem - 6rem )" class="flex-1  mx-auto   px-2   sm:px-6   md:px-8 bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44   space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
                    
                     @php
@@ -180,7 +180,7 @@
 
                 <!-- حقل الإدخال -->
                 <div
-                    class="bg-white p-4 border-t shadow-[0_-8px_30px_-10px_rgba(0,0,0,0.1)] fixed bottom-0 left-0 right-0 z-50">
+                    class="h-24 bg-white border-t shadow-lg sticky bottom-0 z-50">
                     <form wire:submit.prevent="sendMessage" class="flex gap-2 items-end max-w-2xl mx-auto w-full"
                         x-data="{
                             resetInput() {
