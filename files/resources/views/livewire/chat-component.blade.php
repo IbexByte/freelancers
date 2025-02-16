@@ -4,7 +4,7 @@
     <div class="container mx-auto    bg-[#eee]">
 
         @if (!$conversation)
-            <div class="max-w-2xl w-full mt-36 mx-auto">
+            <div class="max-w-2xl   mx-auto  w-full mt-36 mx-auto">
                 <!-- الهيدر -->
                 <div class="flex items-center justify-between my-6">
                     <h1 class="text-lg sm:text-2xl font-bold text-gray-800">الدردشات</h1>
@@ -117,7 +117,7 @@
                 </div>
 
                 <!-- الرسائل -->
-                <div style="height: calc(100vh - 4rem )" class="flex-1  px-2   sm:px-6   md:px-8 bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44   space-y-3 scroll-smooth"
+                <div style="height: calc(100vh - 4rem )" class="flex-1  mx-auto   px-2   sm:px-6   md:px-8 bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44   space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
                    
                     @php
