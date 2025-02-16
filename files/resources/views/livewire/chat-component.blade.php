@@ -82,7 +82,7 @@
 
                 <!-- الهيدر -->
                 <div
-                    class="w-full h-16 md:h-20  bg-white p-4 border-b flex items-center gap-3 sticky top-0 z-50">
+                    class="w-screen h-16 md:h-20  bg-white p-4 border-b flex items-center gap-3 sticky top-0 z-50">
                     <!-- زر الرجوع -->
                     <button wire:click="backToList" type="button"
                         class="p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
