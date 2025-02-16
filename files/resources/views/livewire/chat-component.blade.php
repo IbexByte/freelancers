@@ -1,10 +1,10 @@
 <div class=" bg-[#eee] ">
 
     <!-- نستخدم حاوية عامة لسهولة التحكم بالتجاوب والمسافات -->
-    <div class="container mx-auto    bg-[#eee]">
+    <div class="container  px-0   bg-[#eee]">
 
         @if (!$conversation)
-            <div class="max-w-2xl   mx-auto  w-full mt-36 mx-auto">
+            <div class="max-w-2xl   mx-auto  w-full mt-36  ">
                 <!-- الهيدر -->
                 <div class="flex items-center justify-between my-6">
                     <h1 class="text-lg sm:text-2xl font-bold text-gray-800">الدردشات</h1>
