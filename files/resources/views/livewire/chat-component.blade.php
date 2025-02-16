@@ -4,77 +4,77 @@
     <div class="container mx-auto px-2   sm:px-6   md:px-8   bg-[#eee]">
 
         @if (!$conversation)
-        <div class="max-w-2xl w-full mt-36 mx-auto">
-            <!-- الهيدر -->
-            <div class="flex items-center justify-between my-6">
-                <h1 class="text-lg sm:text-2xl font-bold text-gray-800">الدردشات</h1>
-                <div class="flex items-center gap-3">
-                    <!-- زر الذهاب إلى الصفحة الرئيسية -->
-                    <a href="/"
-                        class="p-2 hover:bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 active:bg-transparent">
-                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h4m10-11v10a1 1 0 01-1 1h-4m-6 0h6" />
-                        </svg>
-                    </a>
-                    <!-- زر الإعدادات أو القائمة -->
-                    <button type="button"
-                        class="p-2 hover:bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 active:bg-transparent">
-                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01
+            <div class="max-w-2xl w-full mt-36 mx-auto">
+                <!-- الهيدر -->
+                <div class="flex items-center justify-between my-6">
+                    <h1 class="text-lg sm:text-2xl font-bold text-gray-800">الدردشات</h1>
+                    <div class="flex items-center gap-3">
+                        <!-- زر الذهاب إلى الصفحة الرئيسية -->
+                        <a href="/"
+                            class="p-2 hover:bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 active:bg-transparent">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h4m10-11v10a1 1 0 01-1 1h-4m-6 0h6" />
+                            </svg>
+                        </a>
+                        <!-- زر الإعدادات أو القائمة -->
+                        <button type="button"
+                            class="p-2 hover:bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 active:bg-transparent">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01
                                M12 6a1 1 0 110-2 1 1 0 010 2zm0 7
                                a1 1 0 110-2 1 1 0 010 2zm0 7
                                a1 1 0 110-2 1 1 0 010 2z" />
-                        </svg>
-                    </button>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- قائمة المحادثات -->
+                <div class="bg-white rounded-2xl shadow-sm divide-y divide-gray-100">
+                    @forelse($conversations as $conv)
+                        @php
+                            $participant = $conv->user_id == Auth::id() ? $conv->provider : $conv->user;
+                        @endphp
+                        <div wire:click="selectConversation({{ $conv->id }})"
+                            class="p-3 flex items-center gap-3 hover:bg-gray-50 cursor-pointer transition-all group focus:outline-none active:bg-transparent">
+                            <div class="relative">
+                                <img src="{{ $participant->profile_photo_url ?? asset('default-avatar.png') }}"
+                                    alt="صورة المستخدم"
+                                    class="w-12 h-12 rounded-xl object-cover border-2 border-white shadow">
+                                <div
+                                    class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-800   transition-colors">
+                                        {{ $participant->name ?? 'مستخدم مجهول' }}
+                                    </h3>
+                                    <span class="text-xs text-gray-400">
+                                        {{ optional(optional($conv->messages->last())->created_at)->diffForHumans() }}
+                                    </span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm text-gray-500 truncate">
+                                        {{ optional($conv->messages->last())->content ?? 'ابدأ المحادثة...' }}
+                                    </p>
+                                    @if ($conv->unread_count)
+                                        <span
+                                            class="bg-red-500 text-white px-2 py-0.5 rounded-full text-xs font-medium shadow">
+                                            {{ $conv->unread_count }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="p-4 text-center text-gray-500">
+                            لا توجد محادثات حالياً
+                        </div>
+                    @endforelse
                 </div>
             </div>
-        
-            <!-- قائمة المحادثات -->
-            <div class="bg-white rounded-2xl shadow-sm divide-y divide-gray-100">
-                @forelse($conversations as $conv)
-                    @php
-                        $participant = $conv->user_id == Auth::id() ? $conv->provider : $conv->user;
-                    @endphp
-                    <div wire:click="selectConversation({{ $conv->id }})"
-                        class="p-3 flex items-center gap-3 hover:bg-gray-50 cursor-pointer transition-all group focus:outline-none active:bg-transparent">
-                        <div class="relative">
-                            <img src="{{ $participant->profile_photo_url ?? asset('default-avatar.png') }}"
-                                alt="صورة المستخدم"
-                                class="w-12 h-12 rounded-xl object-cover border-2 border-white shadow">
-                            <div
-                                class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
-                            </div>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center justify-between">
-                                <h3 class="font-semibold text-gray-800   transition-colors">
-                                    {{ $participant->name ?? 'مستخدم مجهول' }}
-                                </h3>
-                                <span class="text-xs text-gray-400">
-                                    {{ optional(optional($conv->messages->last())->created_at)->diffForHumans() }}
-                                </span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <p class="text-sm text-gray-500 truncate">
-                                    {{ optional($conv->messages->last())->content ?? 'ابدأ المحادثة...' }}
-                                </p>
-                                @if ($conv->unread_count)
-                                    <span
-                                        class="bg-red-500 text-white px-2 py-0.5 rounded-full text-xs font-medium shadow">
-                                        {{ $conv->unread_count }}
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="p-4 text-center text-gray-500">
-                        لا توجد محادثات حالياً
-                    </div>
-                @endforelse
-            </div>
-        </div>
         @else
             <!-- =================== واجهة الدردشة =================== -->
             <!-- نستخدم flex-1 هنا كي يتمدد المحتوى على كامل الصفحة عموديًا -->
@@ -82,8 +82,7 @@
 
                 <!-- الهيدر -->
                 <div
-                    class="md:top-0  top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed 
-                        md:rounded-md shadow-sm z-50">
+                    class="h-16 md:h-20 bg-white p-4 border-b flex items-center gap-3 sticky top-0 z-50">
                     <!-- زر الرجوع -->
                     <button wire:click="backToList" type="button"
                         class="p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -118,7 +117,7 @@
                 </div>
 
                 <!-- الرسائل -->
-                <div class="flex-1 bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44 pt-52 md:pt-44 px-0 space-y-3 scroll-smooth"
+                <div class="flex-1 bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44  px-0 space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
 
                     @php

@@ -68,12 +68,7 @@
 
     @livewireScripts
     <!-- Additional JS (e.g., from your Mix/Vite or external libs) -->
-    <script src="https://unpkg.com/swiper@11/swiper-bundle.min.js"></script>
-
-    <script>
-        // Example: Toggle the sidebar on mobile
-        // Already included with the hamburger button onClick, but you can add more logic here.
-    </script>
+ 
 </body>
 
 </html>
