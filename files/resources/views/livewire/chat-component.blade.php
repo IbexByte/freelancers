@@ -1,7 +1,7 @@
 <div class=" bg-[#eee] ">
 
     <!-- نستخدم حاوية عامة لسهولة التحكم بالتجاوب والمسافات -->
-    <div class="container mx-auto px-2   sm:px-6   md:px-8   bg-[#eee]">
+    <div class="container mx-auto    bg-[#eee]">
 
         @if (!$conversation)
             <div class="max-w-2xl w-full mt-36 mx-auto">
@@ -82,7 +82,7 @@
 
                 <!-- الهيدر -->
                 <div
-                    class="w-screen h-16 md:h-20  bg-white p-4 border-b flex items-center gap-3 sticky top-0 z-50">
+                    class="w-full h-16 md:h-20  bg-white p-4 border-b flex items-center gap-3 sticky top-0 z-50">
                     <!-- زر الرجوع -->
                     <button wire:click="backToList" type="button"
                         class="p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -117,7 +117,7 @@
                 </div>
 
                 <!-- الرسائل -->
-                <div style="height: calc(100vh - 4rem )" class="flex-1 bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44  px-0 space-y-3 scroll-smooth"
+                <div style="height: calc(100vh - 4rem )" class="flex-1  px-2   sm:px-6   md:px-8 bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44   space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
                    
                     @php
