@@ -164,7 +164,7 @@
 
                                 <!-- وقت الإرسال -->
                                 <div
-                                    class="absolute bottom-1 left-1 flex items-center justify-center gap-1 mt-1 {{ $message->sender_id == Auth::id() ? 'text-blue-100' : 'text-gray-600' }}">
+                                    class="absolute bottom-1 flex items-center justify-center gap-1   mt-1 {{ $message->sender_id == Auth::id() ? 'text-blue-100 left-1  ' : 'text-gray-600 right-1' }}">
                                     <span class="text-[10px] opacity-80">
                                         {{ str_replace(['AM', 'PM'], ['ص', 'م'], $message->created_at->format('h:i A')) }}
                                     </span>
