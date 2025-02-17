@@ -48,6 +48,7 @@
             display: none;
         }
     </style>
+ 
     <!-- في نهاية قسم ال body -->
     @livewireStyles
 </head>

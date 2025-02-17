@@ -4,77 +4,77 @@
     <div class="container mx-auto px-2   sm:px-6   md:px-8   bg-[#eee]">
 
         @if (!$conversation)
-        <div class="max-w-2xl w-full mt-36 mx-auto">
-            <!-- الهيدر -->
-            <div class="flex items-center justify-between my-6">
-                <h1 class="text-lg sm:text-2xl font-bold text-gray-800">الدردشات</h1>
-                <div class="flex items-center gap-3">
-                    <!-- زر الذهاب إلى الصفحة الرئيسية -->
-                    <a href="/"
-                        class="p-2 hover:bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 active:bg-transparent">
-                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h4m10-11v10a1 1 0 01-1 1h-4m-6 0h6" />
-                        </svg>
-                    </a>
-                    <!-- زر الإعدادات أو القائمة -->
-                    <button type="button"
-                        class="p-2 hover:bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 active:bg-transparent">
-                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01
+            <div class="max-w-2xl w-full mt-36 mx-auto">
+                <!-- الهيدر -->
+                <div class="flex items-center justify-between my-6">
+                    <h1 class="text-lg sm:text-2xl font-bold text-gray-800">الدردشات</h1>
+                    <div class="flex items-center gap-3">
+                        <!-- زر الذهاب إلى الصفحة الرئيسية -->
+                        <a href="/"
+                            class="p-2 hover:bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 active:bg-transparent">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h4m10-11v10a1 1 0 01-1 1h-4m-6 0h6" />
+                            </svg>
+                        </a>
+                        <!-- زر الإعدادات أو القائمة -->
+                        <button type="button"
+                            class="p-2 hover:bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 active:bg-transparent">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01
                                M12 6a1 1 0 110-2 1 1 0 010 2zm0 7
                                a1 1 0 110-2 1 1 0 010 2zm0 7
                                a1 1 0 110-2 1 1 0 010 2z" />
-                        </svg>
-                    </button>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- قائمة المحادثات -->
+                <div class="bg-white rounded-2xl shadow-sm divide-y divide-gray-100">
+                    @forelse($conversations as $conv)
+                        @php
+                            $participant = $conv->user_id == Auth::id() ? $conv->provider : $conv->user;
+                        @endphp
+                        <div wire:click="selectConversation({{ $conv->id }})"
+                            class="p-3 flex items-center gap-3 hover:bg-gray-50 cursor-pointer transition-all group focus:outline-none active:bg-transparent">
+                            <div class="relative">
+                                <img src="{{ $participant->profile_photo_url ?? asset('default-avatar.png') }}"
+                                    alt="صورة المستخدم"
+                                    class="w-12 h-12 rounded-xl object-cover border-2 border-white shadow">
+                                <div
+                                    class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-800   transition-colors">
+                                        {{ $participant->name ?? 'مستخدم مجهول' }}
+                                    </h3>
+                                    <span class="text-xs text-gray-400">
+                                        {{ optional(optional($conv->messages->last())->created_at)->diffForHumans() }}
+                                    </span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm text-gray-500 truncate">
+                                        {{ optional($conv->messages->last())->content ?? 'ابدأ المحادثة...' }}
+                                    </p>
+                                    @if ($conv->unread_count)
+                                        <span
+                                            class="bg-red-500 text-white px-2 py-0.5 rounded-full text-xs font-medium shadow">
+                                            {{ $conv->unread_count }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="p-4 text-center text-gray-500">
+                            لا توجد محادثات حالياً
+                        </div>
+                    @endforelse
                 </div>
             </div>
-        
-            <!-- قائمة المحادثات -->
-            <div class="bg-white rounded-2xl shadow-sm divide-y divide-gray-100">
-                @forelse($conversations as $conv)
-                    @php
-                        $participant = $conv->user_id == Auth::id() ? $conv->provider : $conv->user;
-                    @endphp
-                    <div wire:click="selectConversation({{ $conv->id }})"
-                        class="p-3 flex items-center gap-3 hover:bg-gray-50 cursor-pointer transition-all group focus:outline-none active:bg-transparent">
-                        <div class="relative">
-                            <img src="{{ $participant->profile_photo_url ?? asset('default-avatar.png') }}"
-                                alt="صورة المستخدم"
-                                class="w-12 h-12 rounded-xl object-cover border-2 border-white shadow">
-                            <div
-                                class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
-                            </div>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center justify-between">
-                                <h3 class="font-semibold text-gray-800   transition-colors">
-                                    {{ $participant->name ?? 'مستخدم مجهول' }}
-                                </h3>
-                                <span class="text-xs text-gray-400">
-                                    {{ optional(optional($conv->messages->last())->created_at)->diffForHumans() }}
-                                </span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <p class="text-sm text-gray-500 truncate">
-                                    {{ optional($conv->messages->last())->content ?? 'ابدأ المحادثة...' }}
-                                </p>
-                                @if ($conv->unread_count)
-                                    <span
-                                        class="bg-red-500 text-white px-2 py-0.5 rounded-full text-xs font-medium shadow">
-                                        {{ $conv->unread_count }}
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="p-4 text-center text-gray-500">
-                        لا توجد محادثات حالياً
-                    </div>
-                @endforelse
-            </div>
-        </div>
         @else
             <!-- =================== واجهة الدردشة =================== -->
             <!-- نستخدم flex-1 هنا كي يتمدد المحتوى على كامل الصفحة عموديًا -->
@@ -155,7 +155,7 @@
                             @endif --}}
 
                             <div
-                                class="max-w-[85%] px-4 py-2 rounded-3xl {{ $message->sender_id == Auth::id()
+                                class="max-w-[85%] min-h-10 min-w-24  px-4 relative pb-6 pt-2 rounded-3xl {{ $message->sender_id == Auth::id()
                                     ? 'bg-blue-600 text-white rounded-bl-none'
                                     : 'bg-white shadow border border-gray-100 rounded-br-none' }}">
                                 <p class="text-sm md:text-base leading-relaxed break-words">
@@ -164,15 +164,25 @@
 
                                 <!-- وقت الإرسال -->
                                 <div
-                                    class="flex items-center gap-1 mt-1 {{ $message->sender_id == Auth::id() ? 'text-blue-100' : 'text-gray-600' }}">
-                                    <svg class="w-3 h-3 opacity-80" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
+                                    class="absolute bottom-1 left-1 flex items-center justify-center gap-1 mt-1 {{ $message->sender_id == Auth::id() ? 'text-blue-100' : 'text-gray-600' }}">
                                     <span class="text-[10px] opacity-80">
-                                        {{ $message->created_at->format('h:i A') }}
+                                        {{ str_replace(['AM', 'PM'], ['ص', 'م'], $message->created_at->format('h:i A')) }}
                                     </span>
+                                    @if ($message->read)
+                                        <svg class="w-4 h-4 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    @else
+                                    <svg class="w-4 h-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    @endif
+
+
                                 </div>
                             </div>
                         </div>
