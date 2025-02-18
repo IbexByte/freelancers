@@ -118,7 +118,7 @@
                 </div>
 
                 <!-- الرسائل -->
-                <div class="flex-1 bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44 pt-52 md:pt-44 px-0 space-y-3 scroll-smooth"
+                <div class=" bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44 pt-52 md:pt-44 px-0 space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
 
                     @php
@@ -162,6 +162,26 @@
                                     {{ $message->content }}
                                 </p>
 
+                                <!-- عرض المرفقات إن وجدت -->
+                                @if ($message->attachments->isNotEmpty())
+                                    <div class="mt-2 space-y-2">
+                                        @foreach ($message->attachments as $attachment)
+                                            @if ($attachment->type === 'image')
+                                                <!-- عرض الصورة -->
+                                                <img src="{{ asset('storage/' . $attachment->file_path) }}"
+                                                    alt="{{ $attachment->file_name }}" class="max-w-full rounded-lg">
+                                            @else
+                                                <!-- عرض رابط للملف -->
+                                                <a href="{{ asset('storage/' . $attachment->file_path) }}" download
+                                                    class="text-blue-500 underline">
+                                                    {{ $attachment->file_name }}
+                                                </a>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                @endif
+
+
                                 <!-- وقت الإرسال -->
                                 <div
                                     class="absolute bottom-1 flex items-center justify-center gap-1   mt-1 {{ $message->sender_id == Auth::id() ? 'text-blue-100 left-1  ' : 'text-gray-600 right-1' }}">
@@ -175,11 +195,11 @@
                                                 clip-rule="evenodd" />
                                         </svg>
                                     @else
-                                    <svg class="w-4 h-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
+                                        <svg class="w-4 h-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd" />
+                                        </svg>
                                     @endif
 
 
@@ -190,38 +210,57 @@
                 </div>
 
                 <!-- حقل الإدخال -->
+                <!-- حقل الإدخال -->
                 <div
                     class="bg-white p-4 border-t shadow-[0_-8px_30px_-10px_rgba(0,0,0,0.1)] fixed bottom-0 left-0 right-0 z-50">
                     <form wire:submit.prevent="sendMessage" class="flex gap-2 items-end max-w-2xl mx-auto w-full"
                         x-data="{
+                            attachments: [],
                             resetInput() {
                                 this.$nextTick(() => {
                                     const textarea = this.$refs.messageInput;
                                     textarea.style.height = '48px';
                                     textarea.dispatchEvent(new Event('input'));
                                 });
+                            },
+                            handleFileSelect(event) {
+                                const files = Array.from(event.target.files);
+                                const maxSize = 5 * 1024 * 1024; // 5MB
+                        
+                                this.attachments = files.map(file => ({
+                                    name: file.name,
+                                    size: file.size,
+                                    type: file.type.startsWith('image/') ? 'image' : 'file',
+                                    preview: file.type.startsWith('image/') ? URL.createObjectURL(file) : null,
+                                    fileObject: file
+                                })).filter(file => {
+                                    if (file.size > maxSize) {
+                                        alert('الملف ' + file.name + ' يتجاوز الحجم المسموح (5MB)');
+                                        return false;
+                                    }
+                                    return true;
+                                });
+                            },
+                            removeAttachment(index) {
+                                this.attachments.splice(index, 1);
+                                this.$wire.attachments.splice(index, 1);
                             }
-                        }" @message-sent.window="resetInput">
+                        }" @message-sent.window="resetInput; attachments = []">
 
-                        <!-- أزرار المرفقات والتسجيل -->
+                        <!-- زر المرفقات -->
                         <div class="flex items-center gap-1 mb-2">
-                            <button type="button"
+                            <button type="button" @click="$refs.fileInput.click()"
                                 class="p-2 text-gray-500 hover:text-blue-600 transition-transform transform hover:scale-110">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                                 </svg>
-                            </button>
-                            <button type="button"
-                                class="p-2 text-gray-500 hover:text-red-600 transition-transform transform hover:scale-110">
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
-                                    <path
-                                        d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
-                                </svg>
+                                <input type="file" x-ref="fileInput" class="hidden" wire:model="attachments"
+                                    multiple accept="image/*, .pdf, .doc, .docx">
                             </button>
                         </div>
+
+
 
                         <!-- حقل الإدخال -->
                         <div class="flex-1 relative group">
@@ -234,15 +273,15 @@
                                         this.$el.style.height = `${Math.min(this.$el.scrollHeight, this.maxHeight)}px`;
                                     }
                                 }" x-init="resize()" x-on:input="resize()"
-                                class="w-full px-4 py-2.5  no-scrollbar  bg-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 
-                                       text-base resize-none overflow-y-auto  h-5 no-scrollbar
-                                       transition-all duration-200 ease-in-out hover:bg-gray-50 focus:bg-white"
+                                class="w-full px-4 py-2.5 no-scrollbar bg-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 
+                            text-base resize-none overflow-y-auto transition-all duration-200 ease-in-out 
+                            hover:bg-gray-50 focus:bg-white"
                                 style="min-height: 48px; max-height: 96px" @keydown.enter.prevent="if (!event.shiftKey) $wire.sendMessage()"></textarea>
 
                             <!-- توجيهات الكتابة -->
                             <div
                                 class="absolute -top-6 right-2 bg-white px-2 py-1 rounded-lg shadow-sm text-xs text-gray-500 
-                                        opacity-0 group-focus-within:opacity-100 transition-opacity">
+                       opacity-0 group-focus-within:opacity-100 transition-opacity">
                                 Shift + Enter ↵ للسطر الجديد
                             </div>
                         </div>
@@ -250,8 +289,8 @@
                         <!-- زر الإرسال -->
                         <button type="submit"
                             class="mb-2 p-3 bg-blue-600 text-white rounded-full 
-                                       hover:bg-blue-700 transition-all duration-200 shadow-lg
-                                       transform hover:scale-110 active:scale-95">
+                       hover:bg-blue-700 transition-all duration-200 shadow-lg
+                       transform hover:scale-110 active:scale-95">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -260,14 +299,29 @@
                     </form>
 
                     <!-- منطقة المرفقات -->
-                    <div class="max-w-2xl mx-auto mt-2 hidden">
-                        <div class="flex gap-2 animate-fade-in">
-                            <div
-                                class="px-3 py-1.5 bg-white border rounded-full shadow-sm text-sm text-gray-600 
-                                        flex items-center gap-2 hover:bg-gray-50 transition-colors">
-                                <span>مرفق 1</span>
-                                <button class="text-gray-400 hover:text-red-500 transition-colors">&times;</button>
-                            </div>
+                    <div class="max-w-2xl mx-auto mt-2" x-show="attachments.length > 0">
+                        <div class="flex gap-2 animate-fade-in flex-wrap">
+                            <template x-for="(attachment, index) in attachments" :key="index">
+                                <div
+                                    class="px-3 py-1.5 bg-white border rounded-full shadow-sm text-sm text-gray-600 
+                            flex items-center gap-2 hover:bg-gray-50 transition-colors relative">
+                                    <template x-if="attachment.type === 'image'">
+                                        <img :src="attachment.preview" class="w-8 h-8 rounded-full object-cover"
+                                            alt="معاينة الصورة">
+                                    </template>
+                                    <template x-if="attachment.type === 'file'">
+                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                    </template>
+                                    <span
+                                        x-text="attachment.name.substring(0, 15) + (attachment.name.length > 15 ? '...' : '')"></span>
+                                    <button @click="removeAttachment(index)"
+                                        class="text-gray-400 hover:text-red-500 transition-colors">&times;</button>
+                                </div>
+                            </template>
                         </div>
                     </div>
                 </div>

@@ -6,12 +6,15 @@ use Livewire\Component;
 use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithFileUploads;
 
 class ChatComponent extends Component
 {
+    use WithFileUploads;
     public $conversations;  // قائمة المحادثات
     public $conversation;   // المحادثة المحددة
     public $messages = [];  // رسائل المحادثة المحددة
+    public $attachments = [];
     public $recipient;      // الطرف الآخر
     public $newMessage = '';
 
@@ -94,16 +97,26 @@ class ChatComponent extends Component
      */
     public function sendMessage()
     {
-         
-
+ 
         if (!$this->conversation) return;
 
-        $this->conversation->messages()->create([
+        $message =   $this->conversation->messages()->create([
             'sender_id' => Auth::id(),
             'content'   => $this->newMessage
         ]);
 
-        $this->newMessage = '';
+        foreach ($this->attachments as $attachment) {
+            $path = $attachment->store('attachments', 'public');
+            
+            $message->attachments()->create([
+                'file_path' => $path,
+                'file_name' => $attachment->getClientOriginalName(),
+                'type' => str_starts_with($attachment->getMimeType(), 'image/') ? 'image' : 'file'
+            ]);
+        }
+
+        $this->reset(['newMessage', 'attachments']);
+
         $this->loadMessages();
         $this->dispatch('messageReceived'); // للتمرير لأسفل
     }
