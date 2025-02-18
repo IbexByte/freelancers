@@ -1,7 +1,6 @@
-<div class=" bg-[#eee] ">
-
-    <!-- نستخدم حاوية عامة لسهولة التحكم بالتجاوب والمسافات -->
-    <div class="container mx-auto px-2   sm:px-6   md:px-8   bg-[#eee]">
+<div class="bg-[#eee]">
+    <!-- حاوية عامة للتجاوب والمسافات -->
+    <div class="container mx-auto px-2 sm:px-6 md:px-8 bg-[#eee]">
 
         @if (!$conversation)
             <div class="max-w-2xl w-full mt-36 mx-auto">
@@ -9,7 +8,7 @@
                 <div class="flex items-center justify-between my-6">
                     <h1 class="text-lg sm:text-2xl font-bold text-gray-800">الدردشات</h1>
                     <div class="flex items-center gap-3">
-                        <!-- زر الذهاب إلى الصفحة الرئيسية -->
+                        <!-- زر العودة للصفحة الرئيسية -->
                         <a href="/"
                             class="p-2 hover:bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 active:bg-transparent">
                             <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -21,17 +20,18 @@
                         <button type="button"
                             class="p-2 hover:bg-gray-200 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 active:bg-transparent">
                             <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01
-                               M12 6a1 1 0 110-2 1 1 0 010 2zm0 7
-                               a1 1 0 110-2 1 1 0 010 2zm0 7
-                               a1 1 0 110-2 1 1 0 010 2z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 5v.01M12 12v.01M12 19v.01
+                                   M12 6a1 1 0 110-2 1 1 0 010 2zm0 7
+                                   a1 1 0 110-2 1 1 0 010 2zm0 7
+                                   a1 1 0 110-2 1 1 0 010 2z" />
                             </svg>
                         </button>
                     </div>
                 </div>
 
-                <!-- قائمة المحادثات -->
-                <div class="bg-white rounded-2xl shadow-sm divide-y divide-gray-100">
+                <!-- قائمة المحادثات مع ظل مخصص يعطي عمقاً أكثر -->
+                <div class="bg-white rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] divide-y divide-gray-100">
                     @forelse($conversations as $conv)
                         @php
                             $participant = $conv->user_id == Auth::id() ? $conv->provider : $conv->user;
@@ -42,13 +42,12 @@
                                 <img src="{{ $participant->profile_photo_url ?? asset('default-avatar.png') }}"
                                     alt="صورة المستخدم"
                                     class="w-12 h-12 rounded-xl object-cover border-2 border-white shadow">
-                                <div
-                                    class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
+                                <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
                                 </div>
                             </div>
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between">
-                                    <h3 class="font-semibold text-gray-800   transition-colors">
+                                    <h3 class="font-semibold text-gray-800 transition-colors">
                                         {{ $participant->name ?? 'مستخدم مجهول' }}
                                     </h3>
                                     <span class="text-xs text-gray-400">
@@ -77,24 +76,24 @@
             </div>
         @else
             <!-- =================== واجهة الدردشة =================== -->
-            <!-- نستخدم flex-1 هنا كي يتمدد المحتوى على كامل الصفحة عموديًا -->
             <div class="relative flex flex-col bg-[#eee] no-scrollbar">
 
-                <!-- الهيدر -->
+                <!-- الهيدر مع ظل خفيف يعطي إحساساً بالعمق -->
                 <div
-                    class="md:top-0  top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed 
-                        md:rounded-md shadow-sm z-50">
+                    class="md:top-0 top-0 left-0 right-0 bg-white p-4 border-b flex items-center gap-3 fixed 
+                        md:rounded-md shadow-[0_2px_8px_rgba(0,0,0,0.1)] z-50">
                     <!-- زر الرجوع -->
                     <button wire:click="backToList" type="button"
                         class="p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
 
                     <!-- صورة الطرف الآخر -->
-                    <img src="{{ $recipient->profile_photo_url }}" alt="صورة المرسل إليه"
-                        class="w-10 h-10 rounded-xl object-cover shadow border-2 border-white">
+                    <img src="{{ $recipient->profile_photo_url }}" 
+    class="w-10 h-10 rounded-lg object-cover shadow border-2 border-white">
 
                     <!-- معلومات الطرف الآخر -->
                     <div class="flex-1">
@@ -116,9 +115,12 @@
                         </svg>
                     </button>
                 </div>
+                
+                <div class="h-12 invisible"></div>
+                <div class="h-12 invisible"></div>
 
-                <!-- الرسائل -->
-                <div class=" bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44 pt-52 md:pt-44 px-0 space-y-3 scroll-smooth"
+                <!-- عرض الرسائل مع تقليل الحافة العلوية للنصف -->
+                <div class="bg-[#eee] no-scrollbar w-full overflow-y-auto pb-44 pt-26 md:pt-22 px-0 space-y-3 scroll-smooth"
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight } }" x-init="scrollToBottom()" x-on:messageReceived.window="scrollToBottom()">
 
                     @php
@@ -131,7 +133,7 @@
                         @endphp
 
                         @if ($currentDate != $lastDate)
-                            <!-- تاريخ اليوم -->
+                            <!-- عرض التاريخ -->
                             <div class="flex justify-center my-4">
                                 <span class="px-3 py-1 text-xs text-gray-600 bg-gray-100 rounded-full">
                                     @if ($message->created_at->isToday())
@@ -149,15 +151,10 @@
                         <!-- الرسالة -->
                         <div
                             class="flex items-end gap-x-2 {{ $message->sender_id == Auth::id() ? 'justify-end' : 'justify-start' }}">
-                            {{-- @if ($message->sender_id != Auth::id())
-                                <img src="{{ $recipient->profile_photo_url }}" alt="صورة المرسل"
-                                    class="w-10 h-10 rounded-full object-cover shadow border-2 border-white">
-                            @endif --}}
-
                             <div
-                                class="max-w-[85%] min-h-10 min-w-24  px-4 relative pb-6 pt-2 rounded-3xl {{ $message->sender_id == Auth::id()
-                                    ? 'bg-blue-600 text-white rounded-bl-none'
-                                    : 'bg-white shadow border border-gray-100 rounded-br-none' }}">
+                                class="max-w-[85%] min-h-10 min-w-24 px-4 relative pb-6 pt-2 rounded-3xl {{ $message->sender_id == Auth::id()
+                                    ? 'bg-gray-700 text-white rounded-bl-none'
+                                    : 'bg-white border border-gray-100 rounded-br-none shadow-[0_2px_8px_rgba(0,0,0,0.08)]' }}">
                                 <p class="text-sm md:text-base leading-relaxed break-words">
                                     {{ $message->content }}
                                 </p>
@@ -181,10 +178,9 @@
                                     </div>
                                 @endif
 
-
-                                <!-- وقت الإرسال -->
+                                <!-- وقت الإرسال مع أيقونة القراءة -->
                                 <div
-                                    class="absolute bottom-1 flex items-center justify-center gap-1   mt-1 {{ $message->sender_id == Auth::id() ? 'text-blue-100 left-1  ' : 'text-gray-600 right-1' }}">
+                                    class="absolute bottom-1 flex items-center justify-center gap-1 mt-1 {{ $message->sender_id == Auth::id() ? 'text-blue-100 left-1' : 'text-gray-600 right-1' }}">
                                     <span class="text-[10px] opacity-80">
                                         {{ str_replace(['AM', 'PM'], ['ص', 'م'], $message->created_at->format('h:i A')) }}
                                     </span>
@@ -201,18 +197,15 @@
                                                 clip-rule="evenodd" />
                                         </svg>
                                     @endif
-
-
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
 
-                <!-- حقل الإدخال -->
-                <!-- حقل الإدخال -->
+                <!-- حقل الإدخال مع ظل مخصص في الأسفل -->
                 <div
-                    class="bg-white p-4 border-t shadow-[0_-8px_30px_-10px_rgba(0,0,0,0.1)] fixed bottom-0 left-0 right-0 z-50">
+                    class="bg-white p-4 border-t fixed bottom-0 left-0 right-0 z-50 shadow-[0_-8px_30px_-10px_rgba(0,0,0,0.15)]">
                     <form wire:submit.prevent="sendMessage" class="flex gap-2 items-end max-w-2xl mx-auto w-full"
                         x-data="{
                             attachments: [],
@@ -260,8 +253,6 @@
                             </button>
                         </div>
 
-
-
                         <!-- حقل الإدخال -->
                         <div class="flex-1 relative group">
                             <textarea x-ref="messageInput" wire:model.debounce.300ms="newMessage" placeholder="اكتب رسالتك..."
@@ -288,9 +279,7 @@
 
                         <!-- زر الإرسال -->
                         <button type="submit"
-                            class="mb-2 p-3 bg-blue-600 text-white rounded-full 
-                       hover:bg-blue-700 transition-all duration-200 shadow-lg
-                       transform hover:scale-110 active:scale-95">
+                            class="mb-2 p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-200 shadow-lg transform hover:scale-110 active:scale-95">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -298,13 +287,12 @@
                         </button>
                     </form>
 
-                    <!-- منطقة المرفقات -->
+                    <!-- منطقة عرض المرفقات -->
                     <div class="max-w-2xl mx-auto mt-2" x-show="attachments.length > 0">
                         <div class="flex gap-2 animate-fade-in flex-wrap">
                             <template x-for="(attachment, index) in attachments" :key="index">
                                 <div
-                                    class="px-3 py-1.5 bg-white border rounded-full shadow-sm text-sm text-gray-600 
-                            flex items-center gap-2 hover:bg-gray-50 transition-colors relative">
+                                    class="px-3 py-1.5 bg-white border rounded-full shadow-sm text-sm text-gray-600 flex items-center gap-2 hover:bg-gray-50 transition-colors relative">
                                     <template x-if="attachment.type === 'image'">
                                         <img :src="attachment.preview" class="w-8 h-8 rounded-full object-cover"
                                             alt="معاينة الصورة">
@@ -331,17 +319,14 @@
                 .scroll-smooth {
                     scroll-behavior: smooth;
                 }
-
                 .hide-scrollbar {
                     -ms-overflow-style: none;
                     scrollbar-width: none;
                 }
-
                 .hide-scrollbar::-webkit-scrollbar {
                     display: none;
                 }
             </style>
-
         @endif
     </div>
 </div>
