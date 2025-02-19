@@ -62,17 +62,15 @@
                 </h4>
 
                 <!-- Search Form -->
-                <div class="search-form mt-6 mb-3">
-                    <form class="relative max-w-xl mx-auto">
-                        <input type="text" id="search-service" name="service"
-                            class="form-input border-0 py-4 pe-40 ps-6 w-full h-[50px] outline-none text-slate-900 rounded-full bg-white shadow"
-                            placeholder="{{ __('site.search_placeholder') }}">
-                        <button type="submit"
-                            class="py-2 px-5 inline-block font-semibold tracking-wide border align-middle duration-500 text-base text-center absolute top-[2px] end-[3px] h-[46px] bg-orange-500 hover:bg-orange-600 border-orange-500 hover:border-orange-600 text-white rounded-full">
-                            {{ __('site.search_button') }} <i class="uil uil-search"></i>
-                        </button>
-                    </form><!-- end form -->
-                </div>
+                <form action="{{ route('search') }}" method="GET" class="relative max-w-xl mx-auto">
+                    <input type="text" id="search-service" name="query"
+                        class="form-input border-0 py-4 pe-40 ps-6 w-full h-[50px] outline-none text-slate-900 rounded-full bg-white shadow"
+                        placeholder="{{ __('site.search_placeholder') }}">
+                    <button type="submit"
+                        class="py-2 px-5 inline-block font-semibold tracking-wide border align-middle duration-500 text-base text-center absolute top-[2px] end-[3px] h-[46px] bg-orange-500 hover:bg-orange-600 border-orange-500 hover:border-orange-600 text-white rounded-full">
+                        {{ __('site.search_button') }} <i class="uil uil-search"></i>
+                    </button>
+                </form>
 
                 <!-- Popular Searches -->
                 <div class="popular-searches mt-4">

@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Auth;
 class IncomingOrders extends Component
 {
     public $orders;
-
-    // نستقبل حدث "orderUpdated" لتحديث القائمة عند حدوث تغييرات
+    public $selectedStatus = null;
+    
     protected $listeners = ['orderUpdated' => 'loadOrders'];
 
     public function mount()
@@ -18,43 +18,43 @@ class IncomingOrders extends Component
         $this->loadOrders();
     }
 
-    // تحميل الطلبات الواردة للبائع الحالي
     public function loadOrders()
     {
-        $this->orders = Order::with(['service', 'provider'])
-            ->where('provider_id', Auth::id())
-            ->orderBy('requested_at', 'desc')
-            ->get();
+        $query = Order::with(['service', 'user'])
+            ->where('provider_id', Auth::id());
+
+        if ($this->selectedStatus) {
+            $query->where('status', $this->selectedStatus);
+        }
+
+        $this->orders = $query->orderBy('requested_at', 'desc')->get();
     }
 
-    // مثال إجراء: الموافقة على الطلب
-    public function approveOrder($orderId)
+    public function filterByStatus($status)
     {
-        $order = Order::find($orderId);
-        if ($order && $order->provider_id == Auth::id()) {
-            $order->status = 'approved'; // يمكنك تغيير الحالة إلى in_progress حسب متطلبات سير العمل
-            $order->approved_at = now();
-            $order->save();
-
-            session()->flash('success', 'تمت الموافقة على الطلب بنجاح.');
-            $this->loadOrders();
-            $this->dispatch('orderUpdated');
-        }
+        $this->selectedStatus = $status;
+        $this->loadOrders();
     }
 
-    // مثال إجراء: تأكيد التسليم
-    public function deliverOrder($orderId)
+    public function getStatusCountsProperty()
     {
-        $order = Order::find($orderId);
-        if ($order && $order->provider_id == Auth::id()) {
-            $order->status = 'delivered';
-            $order->delivered_at = now();
-            $order->save();
+        return Order::where('provider_id', Auth::id())
+            ->selectRaw('status, count(*) as count')
+            ->groupBy('status')
+            ->pluck('count', 'status')
+            ->toArray();
+    }
 
-            session()->flash('success', 'تم تأكيد التسليم بنجاح.');
-            $this->loadOrders();
-            $this->dispatch('orderUpdated');
-        }
+    public function getStatusKeysProperty()
+    {
+        return [
+            'pending_approval',
+            'approved',
+            'in_progress',
+            'delivered',
+            'completed',
+            'cancelled',
+        ];
     }
 
     public function render()

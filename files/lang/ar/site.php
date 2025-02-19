@@ -120,4 +120,12 @@ return [
 
     'footer_copyright' => '© 2025 شركتك. جميع الحقوق محفوظة.',
    
+    'order_statuses' => [
+        'pending_approval' => 'قيد الموافقة',
+        'approved' => 'معتمد',
+        'in_progress' => 'قيد التنفيذ',
+        'delivered' => 'تم التسليم',
+        'completed' => 'مكتمل',
+        'cancelled' => 'ملغي',
+    ],
 ];

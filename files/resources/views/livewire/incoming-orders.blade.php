@@ -1,80 +1,82 @@
-<div class="container mx-auto p-4">
-    <h2 class="text-2xl font-bold mb-4 text-right">الطلبات الواردة</h2>
+<div class="flex flex-col md:flex-row gap-4 mt-10 p-4">
+    <!-- القائمة الجانبية -->
+    <div class="w-full md:w-64 bg-white shadow-md rounded-lg p-4">
+        <h3 class="text-lg font-bold mb-4 text-right">فلترة الطلبات</h3>
+        <ul class="space-y-2">
+            <li class="text-right">
+                <button 
+                    wire:click="filterByStatus(null)"
+                    class="w-full px-4 py-2 text-right hover:bg-gray-100 rounded {{ !$selectedStatus ? 'bg-blue-100' : '' }}"
+                >
+                    الكل ({{ array_sum($this->statusCounts) }})
+                </button>
+            </li>
+            @foreach($this->statusKeys as $statusKey)
+                <li class="text-right">
+                    <button 
+                        wire:click="filterByStatus('{{ $statusKey }}')"
+                        class="w-full px-4 py-2 text-right hover:bg-gray-100 rounded {{ $selectedStatus === $statusKey ? 'bg-blue-100' : '' }}"
+                    >
+                        {{ __('site.order_statuses.' . $statusKey) }} ({{ $this->statusCounts[$statusKey] ?? 0 }})
+                    </button>
+                </li>
+            @endforeach
+        </ul>
+    </div>
 
-    @if(session()->has('success'))
-        <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
-            <p class="text-green-700">{{ session('success') }}</p>
-        </div>
-    @endif
+    <!-- المحتوى الرئيسي -->
+    <div class="flex-1">
+        <div class="bg-white shadow-md rounded-lg p-4">
+            <h2 class="text-2xl font-bold mb-4 text-right">الطلبات الواردة</h2>
 
-    @if($orders->isEmpty())
-        <p class="text-gray-600 text-right">لا توجد طلبات واردة حالياً.</p>
-    @else
-        <!-- تغليف الجدول بوعاء يوفر تمرير أفقي عند الحاجة -->
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                <thead>
-                    <tr class="bg-gray-100 text-right">
-                        <th class="px-4 py-2 border">#</th>
-                        <th class="px-4 py-2 border">الخدمة</th>
-                        <th class="px-4 py-2 border">المشتري</th>
-                        <th class="px-4 py-2 border">السعر</th>
-                        <th class="px-4 py-2 border">الحالة</th>
-                        <th class="px-4 py-2 border">الإجراءات</th>
-                    </tr>
-                </thead>
-                <tbody>
+            @if($orders->isEmpty())
+                <p class="text-gray-600 text-right">لا توجد طلبات واردة حالياً.</p>
+            @else
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach($orders as $order)
-                        <tr class="text-right">
-                            <td class="px-4 py-2 border">{{ $order->id }}</td>
-                            <td class="px-4 py-2 border">
-                                {{ $order->service->name ?? 'غير متاح' }}
-                            </td>
-                            <td class="px-4 py-2 border">
-                                {{ $order->user->name ?? 'غير متاح' }}
-                            </td>
-                            <td class="px-4 py-2 border">
-                                {{ number_format($order->service->price, 2) }} دولار
-                            </td>
-                            <td class="px-4 py-2 border">
-                                @switch($order->status)
-                                    @case('pending_approval')
-                                        <span class="text-yellow-600">قيد الموافقة</span>
-                                        @break
-                                    @case('approved')
-                                        <span class="text-blue-600">معتمد</span>
-                                        @break
-                                    @case('in_progress')
-                                        <span class="text-indigo-600">قيد التنفيذ</span>
-                                        @break
-                                    @case('delivered')
-                                        <span class="text-green-600">تم التسليم</span>
-                                        @break
-                                    @case('completed')
-                                        <span class="text-gray-600">مكتمل</span>
-                                        @break
-                                    @case('cancelled')
-                                        <span class="text-red-600">ملغي</span>
-                                        @break
-                                @endswitch
-                            </td>
-                            <td class="px-4 py-2 border">
-                                @if($order->status == 'pending_approval')
-                                    <button wire:click="approveOrder({{ $order->id }})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
-                                        موافقة
-                                    </button>
-                                @elseif(in_array($order->status, ['approved', 'in_progress']))
-                                    <button wire:click="deliverOrder({{ $order->id }})" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded">
-                                        تأكيد التسليم
-                                    </button>
-                                @else
-                                    <span class="text-sm text-gray-500">لا توجد إجراءات</span>
-                                @endif
-                            </td>
-                        </tr>
+                    <a href="{{ route('order.deteal', $order->id ) }}">
+                        <div 
+                            
+                            class="cursor-pointer border rounded-lg p-4 hover:shadow-lg transition-shadow"
+                        >
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <img 
+                                        src="{{ $order->user->profile_photo_url ?? asset('default-avatar.png') }}" 
+                                        class="w-12 h-12 rounded-full object-cover"
+                                        alt="مقدم الخدمة"
+                                    >
+                                    <div class="text-right">
+                                        <h3 class="font-bold text-lg">{{ $order->service->title }}</h3>
+                                        <p class="text-gray-500 text-sm">{{ $order->user->name }}</p>
+                                    </div>
+                                </div>
+                                <span class="text-lg">
+                                    {{ number_format($order->service->price, 2) }} $
+                                </span>
+                            </div>
+
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-500">
+                                    {{ $order->created_at->diffForHumans() }}
+                                </span>
+                                <span @class([
+                                    'px-2 py-1 rounded-full text-xs',
+                                    'bg-yellow-100 text-yellow-800' => $order->status === 'pending_approval',
+                                    'bg-blue-100 text-blue-800' => $order->status === 'approved',
+                                    'bg-indigo-100 text-indigo-800' => $order->status === 'in_progress',
+                                    'bg-green-100 text-green-800' => $order->status === 'delivered',
+                                    'bg-gray-100 text-gray-800' => $order->status === 'completed',
+                                    'bg-red-100 text-red-800' => $order->status === 'cancelled',
+                                ])>
+                                    {{ __('site.order_statuses.' . $order->status) }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
                     @endforeach
-                </tbody>
-            </table>
+                </div>
+            @endif
         </div>
-    @endif
+    </div>
 </div>

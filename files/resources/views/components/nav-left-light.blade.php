@@ -47,18 +47,17 @@
                 @endguest
 
                 @auth
-                    <!-- إذا كان المستخدم مسجّل الدخول: أيقونات الأدوات -->
-                    <button class="hover:text-blue-600">
-                        <i class="fas fa-shopping-cart"></i>
-                    </button>
+               
+                    
                     <button class="hover:text-blue-600">
                         <i class="fas fa-search"></i>
                     </button>
+                    
                     <livewire:messages-notification />
 
-                    <button class="hover:text-blue-600">
+                    {{-- <button class="hover:text-blue-600">
                         <i class="fas fa-bell"></i>
-                    </button>
+                    </button> --}}
 
                     <!-- أفاتار المستخدم + القائمة المنسدلة -->
                     <div class="relative group">
@@ -167,6 +166,7 @@
                     <span class="text-xs">الرئيسية</span>
                 </a>
                 <livewire:messages-notification />
+
                 <a href="{{ route('cart.index') }}" class="mobile-nav-item">
                     <i class="fas fa-shopping-cart text-xl"></i>
                     <span class="text-xs">السلة</span>
@@ -223,22 +223,22 @@
                                 <span>التصنيفات</span>
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="#" class="sidebar-link">
                                 <i class="fas fa-hashtag"></i>
                                 <span>تابعنا</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </nav>
 
-                <div class="border-t p-4">
+                {{-- <div class="border-t p-4">
                     <a href="#"
                         class="flex items-center gap-2 text-gray-600 hover:text-blue-500 transition text-sm">
                         <i class="fas fa-cog"></i>
                         <span>الإعدادات</span>
                     </a>
-                </div>
+                </div> --}}
 
                 <!-- الروابط الخاصة بتسجيل الدخول أو الملف الشخصي -->
                 <div class="border-t p-4">

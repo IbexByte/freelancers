@@ -122,4 +122,12 @@ return [
     'footer_copyright' => '© 2025 YourCompany. All rights reserved.',
 
 
+    'order_statuses' => [
+        'pending_approval' => 'Pending Approval',
+        'approved' => 'Approved',
+        'in_progress' => 'In Progress',
+        'delivered' => 'Delivered',
+        'completed' => 'Completed',
+        'cancelled' => 'Cancelled',
+    ],
 ];

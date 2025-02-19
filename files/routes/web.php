@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SearchController;
 use App\Http\Middleware\LangSwicher;
 use App\Livewire\Cart;
 use App\Livewire\CategoriesIndex;
 use App\Livewire\ChatComponent;
 use App\Livewire\IncomingOrders;
+use App\Livewire\OrderDetails;
 use App\Livewire\ServiceAdmin;
 use App\Livewire\ServiceShow;
 use App\Livewire\UserProfile;
@@ -27,6 +29,7 @@ Route::get('/storage-link', function () {
 });
 
  
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::resource('categories', CategoryController::class);
 Route::get('incoming-orders', IncomingOrders::class)->name('incoming-orders');
@@ -36,6 +39,7 @@ Route::get('userProfile', UserProfile::class)->name('userProfile');
 Route::get('services', ServiceAdmin::class)->name('services');
 Route::get('service/{service}', ServiceShow::class)->name('services.show');
 Route::get('category/{category}/show', CategoriesIndex::class)->name('category.show');
+Route::get('order/{orderId}/deteal', OrderDetails::class)->name('order.deteal');
 
 Route::get('lang/{lang}', function ($lang) {
     // List of supported languages

@@ -1,26 +1,44 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-<!-- تضمين مكتبة SwiperJS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
-        <!-- Scripts -->
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <!-- تضمين مكتبة SwiperJS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <!-- Scripts -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- Css -->
+    <link href="assets/libs/tobii/css/tobii.min.css" rel="stylesheet">
+    <link href="assets/libs/tiny-slider/tiny-slider.css" rel="stylesheet">
+    <!-- Main Css -->
+    <link href="assets/libs/@iconscout/unicons/css/line.css" type="text/css" rel="stylesheet">
+    <link href="assets/libs/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
+    <!-- Styles / Scripts -->
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/scss/tailwind.scss', 'resources/js/app.js'])
+    @else
+    @endif
+    <!-- Styles -->
+    @livewireStyles
+</head>
 
-        <!-- Styles -->
-        @livewireStyles
-    </head>
-    <body class="font-arabic text-base text-slate-900">
-        <!-- Loader Start -->
-        <!-- <div id="preloader">
+<body class="font-arabic text-base text-slate-900">
+    <!-- Loader Start -->
+    <!-- <div id="preloader">
                 <div id="status">
                     <div class="spinner">
                         <div class="double-bounce1"></div>
@@ -28,26 +46,32 @@
                     </div>
                 </div>
             </div> -->
-        <!-- Loader End -->
-    <div class="md:hidden bg-white w-screen flex  justify-center items-center absolute -translate-x-1/2 left-1/2 top-0 rounded-br-full rounded-bl-full  z-50">
-    
+    <!-- Loader End -->
+    <div
+        class="md:hidden bg-white w-screen flex  justify-center items-center absolute -translate-x-1/2 left-1/2 top-0 rounded-br-full rounded-bl-full  z-50">
+
         <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="h-10  ">
     </div>
-    
-        <x-nav-left-light />
-    
-       
-    
-        <div class="font-sans text-gray-900 antialiased">
-            {{ $slot }}
+
+    <x-nav-left-light />
+
+
+
+    <div class="font-sans text-gray-900 antialiased">
+        {{ $slot }}
+    </div>
+    <!-- إضافة مكون الإشعارات -->
+    <div aria-live="assertive" class="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start">
+        <div class="w-full flex flex-col items-center space-y-4 sm:items-end">
+            @livewire('notifications')
         </div>
-    
-  
-    
-        <x-footer />
-    
-        <!-- Start Cookie Popup -->
-        {{-- <div
+    </div>
+
+
+    <x-footer />
+
+    <!-- Start Cookie Popup -->
+    {{-- <div
             class="cookie-popup fixed max-w-lg bottom-3 end-3 start-3 sm:start-0 mx-auto bg-white shadow rounded-md py-5 px-6 z-50">
             <p class="text-slate-400">This website uses cookies to provide you with a great user experience. By using it,
                 you accept our <a href="https://shreethemes.in" target="_blank"
@@ -57,17 +81,17 @@
                         class="uil uil-times text-dark text-2xl"></i></button>
             </div>
         </div> --}}
-        <!--Note: Cookies Js including in plugins.init.js (path like; assets/js/plugins.init.js) and Cookies css including in _helper.scss (path like; scss/_helper.scss)-->
-        <!-- End Cookie Popup -->
-    
-        <!-- Back to top -->
-        <a href="#" onclick="topFunction()" id="back-to-top"
-            class="back-to-top fixed hidden text-lg rounded-full z-10 bottom-5 end-5 size-9 text-center bg-indigo-600 text-white leading-9"><i
-                class="uil uil-arrow-up"></i></a>
-        <!-- Back to top -->
-    
-        <!-- Switcher -->
-        {{-- <div class="fixed top-[30%] -right-2 z-50">
+    <!--Note: Cookies Js including in plugins.init.js (path like; assets/js/plugins.init.js) and Cookies css including in _helper.scss (path like; scss/_helper.scss)-->
+    <!-- End Cookie Popup -->
+
+    <!-- Back to top -->
+    <a href="#" onclick="topFunction()" id="back-to-top"
+        class="back-to-top fixed hidden text-lg rounded-full z-10 bottom-5 end-5 size-9 text-center bg-indigo-600 text-white leading-9"><i
+            class="uil uil-arrow-up"></i></a>
+    <!-- Back to top -->
+
+    <!-- Switcher -->
+    {{-- <div class="fixed top-[30%] -right-2 z-50">
             <span class="relative inline-block rotate-90">
                 <input type="checkbox" class="checkbox opacity-0 absolute" id="chk" />
                 <label
@@ -79,10 +103,10 @@
                 </label>
             </span>
         </div> --}}
-        <!-- Switcher -->
-    
-        <!-- LTR & RTL Mode Code -->
-        {{-- <div class="fixed top-[40%] -right-3 z-50">
+    <!-- Switcher -->
+
+    <!-- LTR & RTL Mode Code -->
+    {{-- <div class="fixed top-[40%] -right-3 z-50">
             <a href="" id="switchRtl">
                 <span
                     class="py-1 px-3 relative inline-block rounded-t-md -rotate-90 bg-white shadow-md font-bold rtl:block ltr:hidden">LTR</span>
@@ -91,16 +115,17 @@
             </a>
         </div> --}}
 
-        <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
-        <!-- LTR & RTL Mode Code -->
-        <script src="{{ asset('build/assets/app-CqflisoM.js') }}"></script>
-        <!-- JAVASCRIPTS -->
-        <script src="assets/libs/tobii/js/tobii.min.js"></script>
-        <script src="assets/libs/tiny-slider/min/tiny-slider.js"></script>
-        <script src="assets/libs/feather-icons/feather.min.js"></script>
-        <script src="assets/js/plugins.init.js"></script>
-        <script src="assets/js/app.js"></script>
-        <!-- JAVASCRIPTS -->
-    </body>
+    <!-- LTR & RTL Mode Code -->
+    <script src="{{ asset('build/assets/app-CqflisoM.js') }}"></script>
+    <!-- JAVASCRIPTS -->
+    <script src="assets/libs/tobii/js/tobii.min.js"></script>
+    <script src="assets/libs/tiny-slider/min/tiny-slider.js"></script>
+    <script src="assets/libs/feather-icons/feather.min.js"></script>
+    <script src="assets/js/plugins.init.js"></script>
+    <script src="assets/js/app.js"></script>
+    <!-- JAVASCRIPTS -->
+</body>
+
 </html>
