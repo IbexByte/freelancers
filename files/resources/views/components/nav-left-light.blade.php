@@ -54,9 +54,8 @@
                     <button class="hover:text-blue-600">
                         <i class="fas fa-search"></i>
                     </button>
-                    <button class="hover:text-blue-600">
-                        <i class="fas fa-envelope"></i>
-                    </button>
+                    <livewire:messages-notification />
+
                     <button class="hover:text-blue-600">
                         <i class="fas fa-bell"></i>
                     </button>
@@ -167,10 +166,7 @@
                     <i class="fas fa-home text-xl"></i>
                     <span class="text-xs">الرئيسية</span>
                 </a>
-                <a href="{{ route('chat') }}" class="mobile-nav-item">
-                    <i class="fas fa-envelope  text-xl"></i>
-                    <span class="text-xs">الرسائل</span>
-                </a>
+                <livewire:messages-notification />
                 <a href="{{ route('cart.index') }}" class="mobile-nav-item">
                     <i class="fas fa-shopping-cart text-xl"></i>
                     <span class="text-xs">السلة</span>

@@ -35,16 +35,16 @@
 
 <body class="font-arabic text-base text-slate-900">
     <!-- Loader Start -->
-    <!-- <div id="preloader">
+     <div id="preloader">
             <div id="status">
                 <div class="spinner">
                     <div class="double-bounce1"></div>
                     <div class="double-bounce2"></div>
                 </div>
             </div>
-        </div> -->
+        </div> 
     <!-- Loader End -->
-<div class="md:hidden bg-white w-screen flex  justify-center items-center absolute -translate-x-1/2 left-1/2 top-0 rounded-br-full rounded-bl-full  z-50">
+<div class="md:hidden bg-white w-screen flex  justify-center items-center  -translate-x-1/2 left-1/2    shadow-xl fixed top-0    z-50">
 
     <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="h-10  ">
 </div>
@@ -137,6 +137,7 @@
                 <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6">
                     @forelse ($categories as $category)
                         <!-- Category 1 -->
+                        <a href="{{ route('category.show', $category->id) }}">
                         <div class="relative group overflow-hidden rounded-xl shadow-lg">
                             <img src="{{ $category->getImageUrlAttribute() }}"
                                 alt="{{ __('site.category_web_design') }}"
@@ -146,6 +147,7 @@
                                 {{ $category->name }}
                             </div>
                         </div>
+                    </a>
 
                     @empty
                         {{ 'لاتوجد تصنيفات' }}

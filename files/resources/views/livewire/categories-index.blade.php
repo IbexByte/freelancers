@@ -5,8 +5,8 @@
     <!-- زر القائمة يظهر فقط على الشاشات الصغيرة -->
     <button 
         @click="sidebarOpen = !sidebarOpen" 
-        class="md:hidden mb-4 px-4 py-2 bg-blue-600 text-white rounded-md">
-        القائمة الجانبية
+        class="md:hidden mb-4 px-4 py-2 z-999 fixed top-0 left-0    text-gray-500  rounded-md">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 18h18v-2H3zm0-5h18v-2H3zm0-7v2h18V6z"/></svg>
     </button>
     
     <div class="flex flex-col md:flex-row gap-6">
