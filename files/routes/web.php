@@ -7,6 +7,7 @@ use App\Livewire\Cart;
 use App\Livewire\CategoriesIndex;
 use App\Livewire\ChatComponent;
 use App\Livewire\IncomingOrders;
+use App\Livewire\MyServices;
 use App\Livewire\OrderDetails;
 use App\Livewire\ServiceAdmin;
 use App\Livewire\ServiceShow;
@@ -33,13 +34,14 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::resource('categories', CategoryController::class);
 Route::get('incoming-orders', IncomingOrders::class)->name('incoming-orders');
-Route::get('Cart-items', Cart::class)->name('cart.index');
+Route::get('my-items', Cart::class)->name('cart.index');
 Route::get('/chat', ChatComponent::class)->name('chat');
 Route::get('userProfile', UserProfile::class)->name('userProfile');
 Route::get('services', ServiceAdmin::class)->name('services');
 Route::get('service/{service}', ServiceShow::class)->name('services.show');
 Route::get('category/{category}/show', CategoriesIndex::class)->name('category.show');
 Route::get('order/{orderId}/deteal', OrderDetails::class)->name('order.deteal');
+Route::get('my', MyServices::class)->name('user.purchase');
 
 Route::get('lang/{lang}', function ($lang) {
     // List of supported languages

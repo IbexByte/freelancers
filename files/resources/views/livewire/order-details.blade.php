@@ -5,13 +5,12 @@
             تفاصيل الطلب #{{ $order->id }}
         </h1>
         <p class="text-gray-500 mt-2 animate-pulse">
-            📅 {{ $order->created_at->translatedFormat('d M Y - h:i A') }}
+            📅 {{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('d M Y - h:i A') }}
         </p>
     </div>
 
     <!-- بطاقة العميل -->
-    <div
-        class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 transform transition-all hover:scale-[1.01] hover:shadow-xl">
+    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 transform transition-all hover:scale-[1.01] hover:shadow-xl">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="space-y-2 flex-1">
                 <div class="flex items-center gap-2">
@@ -58,29 +57,26 @@
 
     <!-- الخط الزمني -->
     <div class="relative py-8" x-data="{ currentStep: {{ $currentIndex }} }">
-        <div
-            class="absolute top-8 left-1/2 w-1 bg-gray-200 h-[calc(100%-4rem)] -translate-x-1/2 transition-all duration-500 ease-in-out">
-        </div>
+        <div class="absolute top-8 left-1/2 w-1 bg-gray-200 h-[calc(100%-4rem)] -translate-x-1/2 transition-all duration-500 ease-in-out"></div>
 
         <div class="flex flex-wrap justify-between gap-y-8">
             @foreach ($steps as $status => $data)
-                <div class="w-1/5 min-w-[120px] text-center relative" x-data="{ loaded: false }" x-init="setTimeout(() => loaded = true, {{ $loop->index * 150 }})"
-                    x-show="loaded" x-transition:enter="transition ease-out duration-500"
-                    x-transition:enter-start="opacity-0 translate-y-10"
-                    x-transition:enter-end="opacity-100 translate-y-0">
-                    <div
-                        class="mx-auto mb-4 w-16 h-16 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 
+                <div class="w-1/5 min-w-[120px] text-center relative" x-data="{ loaded: false }" 
+                     x-init="setTimeout(() => loaded = true, {{ $loop->index * 150 }})"
+                     x-show="loaded" x-transition:enter="transition ease-out duration-500"
+                     x-transition:enter-start="opacity-0 translate-y-10"
+                     x-transition:enter-end="opacity-100 translate-y-0">
+                    <div class="mx-auto mb-4 w-16 h-16 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 
                           @if ($loop->index <= $currentIndex) bg-{{ $data['color'] }}-500 text-white ring-4 ring-{{ $data['color'] }}-200 hover:scale-110 
                           @else bg-gray-100 text-gray-400 hover:bg-gray-200 @endif">
                         {{ $data['icon'] }}
                     </div>
-                    <div
-                        class="text-sm font-medium @if ($loop->index <= $currentIndex) text-gray-800 @else text-gray-400 @endif">
+                    <div class="text-sm font-medium @if ($loop->index <= $currentIndex) text-gray-800 @else text-gray-400 @endif">
                         {{ $data['label'] }}
                     </div>
                     @if ($order->{$status . '_at'})
                         <div class="text-xs text-gray-500 mt-1 animate-fade-in">
-                            {{ $order->{$status . '_at'}->translatedFormat('d M - h:i A') }}
+                            {{ \Carbon\Carbon::parse($order->{$status . '_at'})->translatedFormat('d M - h:i A') }}
                         </div>
                     @endif
                 </div>
@@ -88,15 +84,28 @@
         </div>
     </div>
 
-    <!-- أزرار تغيير الحالة -->
-    @if ($allowedNextStatus && $order->status !== 'cancelled')
+    <!-- أزرار تغيير الحالة للموظفين -->
+    @if ($allowedNextStatus && $order->status !== 'cancelled' && $allowedNextStatus !== 'completed')
         <div class="text-center">
             <button wire:click="confirmStatusChange"
                 class="p-4 rounded-lg border transition-all hover:scale-105 active:scale-95 
-                   bg-white hover:bg-{{ $steps[$allowedNextStatus]['color'] }}-50 border-{{ $steps[$allowedNextStatus]['color'] }}-200
-                   flex items-center justify-center gap-2 mx-auto w-full md:w-1/2">
+                       bg-white hover:bg-{{ $steps[$allowedNextStatus]['color'] }}-50 border-{{ $steps[$allowedNextStatus]['color'] }}-200
+                       flex items-center justify-center gap-2 mx-auto w-full md:w-1/2">
                 <span class="text-xl">{{ $steps[$allowedNextStatus]['icon'] }}</span>
                 <span class="text-sm font-medium">تغيير الحالة إلى {{ $steps[$allowedNextStatus]['label'] }}</span>
+            </button>
+        </div>
+    @endif
+
+    <!-- زر تأكيد الإكمال للمشتري -->
+    @if ($order->status === 'delivered' && auth()->user()->id === $order->user_id)
+        <div class="text-center mt-4">
+            <button wire:click="confirmStatusChange('completed')"
+                class="p-4 rounded-lg border transition-all hover:scale-105 active:scale-95 
+                       bg-green-50 hover:bg-green-100 border-green-200
+                       flex items-center justify-center gap-2 mx-auto w-full md:w-1/2">
+                <span class="text-xl">🎉</span>
+                <span class="text-sm font-medium">تأكيد استلام الطلب وإكماله</span>
             </button>
         </div>
     @endif

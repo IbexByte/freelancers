@@ -167,10 +167,8 @@
                 </a>
                 <livewire:messages-notification />
 
-                <a href="{{ route('cart.index') }}" class="mobile-nav-item">
-                    <i class="fas fa-shopping-cart text-xl"></i>
-                    <span class="text-xs">السلة</span>
-                </a>
+                <livewire:cart-notification-mobile />
+
                 <!-- زر همبرغر للجوال -->
                 <a href="#" class="mobile-nav-item" onclick="toggleSidebar()">
                     <i class="fas fa-bars text-xl"></i>
@@ -208,7 +206,13 @@
                         <li>
                             <a href="{{ route('cart.index' ) }}" class="sidebar-link">
                                 <i class="fas fa-shopping-bag"></i>
-                                <span>المشتريات</span>
+                                <span>سلة المشتريات</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('user.purchase') }}" class="sidebar-link">
+                                <i class="fas fa-list"></i>
+                                <span>مشترياتي</span>
                             </a>
                         </li>
                         <li>
